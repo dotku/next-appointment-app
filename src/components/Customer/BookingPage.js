@@ -262,7 +262,11 @@ const BookingPage = () => {
           </pre>
         </div>
         <div>
-          <h2>Book a Specialist</h2>
+          <h2 className="text-2xl">Book a Specialist</h2>
+          <p>
+            This section is more for a studio manager to hav fully control the
+            appointment
+          </p>
           <div className="grid grid-cols-1 gap-6">
             <label className="block">
               <span className="text-gray-700">Select Customer</span>
@@ -360,10 +364,93 @@ const BookingPage = () => {
           </button>
         </div>
         <div className="col-span-1">
-          <h2 className="text-xl">Appointment View</h2>
+          <h2 className="text-2xl">Appointment View</h2>
           {appointments.map((apt, key) => (
             <div key={key}>{JSON.stringify(apt)}</div>
           ))}
+          <h2 className="text-2xl mt-4">GTD</h2>
+          <ol className="list-decimal list-inside">
+            <li className="flex items-center">
+              <svg
+                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+              </svg>
+              Create customer
+            </li>
+            <li className="flex items-center">
+              <svg
+                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+              </svg>
+              Create studio
+            </li>
+            <li className="flex items-center">
+              <svg
+                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+              </svg>
+              Create specialist
+            </li>
+            <li className="flex items-center">
+              <svg
+                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+              </svg>
+              Create appointment
+            </li>
+            <li className="flex items-center">
+              <svg
+                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+              </svg>
+              view appointment
+            </li>
+            <li>Appointment should be able to reschedule and cancel</li>
+            <li>Appointment conflict checking</li>
+            <li>
+              Can studio has their own seperate system that won't share with
+              platform
+            </li>
+            <li>Auth system to manage the role and permissions</li>
+            <li>Check in manager for appointment tracking</li>
+            <li>
+              Can a special manage their schedule in the Studio? Should a studio
+              manager approval their schedule update?
+            </li>
+            <li>
+              Should a studio owner has multiple studios and or one studio has
+              multiple studio owners?
+            </li>
+            <li>
+              We need track down all actions, including who update what kind
+              content, in case we need provide customer support.
+            </li>
+          </ol>
         </div>
       </div>
     </div>
