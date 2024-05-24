@@ -1,4 +1,9 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
+import ReleaseLog from "../Docs/ReleaseLog/ReleaseLog";
+import ProfileCard from "../Elements/ProfileCard";
+import { days } from "../Elements/Calendar";
 
 // Dummy data
 const dummyUsers = [
@@ -8,14 +13,38 @@ const dummyUsers = [
 ];
 
 const dummyStudios = [
-  { id: 1, name: "Studio One" },
-  { id: 2, name: "Studio Two" },
+  { id: 1, name: "Studio One", city: "San Francisco" },
+  { id: 2, name: "Studio Two", city: "San Jose" },
 ];
 
 const dummySpecialists = [
-  { id: 1, name: "Specialist One", userId: 1, studioId: 1 },
-  { id: 2, name: "Specialist Two", userId: 2, studioId: 1 },
-  { id: 3, name: "Specialist Three", userId: 3, studioId: 2 },
+  {
+    id: 1,
+    name: "Specialist One",
+    intro:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    userId: 1,
+    studioId: 1,
+    availibilities: [4, 6],
+  },
+  {
+    id: 2,
+    name: "Specialist Two",
+    intro:
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    userId: 2,
+    studioId: 1,
+    availibilities: [2, 3],
+  },
+  {
+    id: 3,
+    intro:
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
+    name: "Specialist Three",
+    userId: 3,
+    studioId: 2,
+    availibilities: [0, 1, 2],
+  },
 ];
 
 const dummyAppointments = [
@@ -28,6 +57,7 @@ const BookingPage = () => {
   const [appointments, setAppointments] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedStudio, setSelectedStudio] = useState(null);
+  const [selectedFilterDay, setSelectedFilterDay] = useState();
   const [specialists, setSpecialists] = useState([]);
   const [selectedManagerSpecialistStudio, setSelectedManagerSpecialistStudio] =
     useState("");
@@ -168,11 +198,24 @@ const BookingPage = () => {
     setBookingTime("");
   };
 
+  const handleFilterSpecilistAvailibilitiesChange = (v) => {
+    console.log("handleFilterSpecilistAvailibilitiesChange", v);
+    setSelectedFilterDay(v);
+    console.log();
+    setSpecialists(
+      dummySpecialists.filter((s) => s.availibilities.includes(Number(v)))
+    );
+  };
+
   return (
     <div>
       <div className="grid grid-cols-3 gap-4">
         <div>
-          <h2 className="text-2xl">Asset Manager</h2>
+          <h2 className="text-2xl">Administration</h2>
+          <p className="text-gray-400">
+            This administration could be used for internal mangament or support
+            assistant
+          </p>
           <h3 className="text-xl">Customers</h3>
           <p>User as customer</p>
           <label className="block w-80">
@@ -189,7 +232,7 @@ const BookingPage = () => {
           >
             Add
           </button>
-          <pre className="text-gray-300">
+          <pre className="text-gray-400">
             {JSON.stringify(customers, null, 2)}
           </pre>
           <h2 className="text-xl mt-4">Studios</h2>
@@ -208,7 +251,7 @@ const BookingPage = () => {
           >
             Add
           </button>
-          <pre className="text-gray-300">
+          <pre className="text-gray-400">
             {JSON.stringify(studios, null, 2)}
           </pre>
           <h2 className="text-xl mt-4">Specialist</h2>
@@ -257,19 +300,18 @@ const BookingPage = () => {
           >
             Add
           </button>
-          <pre className="text-gray-300">
+          <pre className="text-gray-400" style={{ whiteSpace: "pre-wrap" }}>
             {JSON.stringify(specialists, null, 2)}
           </pre>
         </div>
         <div>
           <h2 className="text-2xl">Book a Specialist</h2>
-          <p>
-            This section is more for a studio manager to hav fully control the
-            appointment
+          <p className="text-gray-400">
+            This section would be used for a customer to book specialists
           </p>
           <div className="grid grid-cols-1 gap-6">
             <label className="block">
-              <span className="text-gray-700">Select Customer</span>
+              <span className="text-gray-700">Your identity</span>
               <select
                 className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 onChange={(e) => handleCustomerChange(e.target.value)}
@@ -283,8 +325,32 @@ const BookingPage = () => {
                 ))}
               </select>
             </label>
+            <hr />
             <label className="block">
-              <span className="text-gray-700">Select Studio</span>
+              <div className="text-gray-700">
+                Filtered by Specialist's Availibilities
+              </div>
+              <div className="text-gray-400">
+                Product should use multi selector, use single selector here for
+                quick demo purpose.
+              </div>
+              <select
+                className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                onChange={(e) =>
+                  handleFilterSpecilistAvailibilitiesChange(e.target.value)
+                }
+                value={selectedFilterDay || ""}
+              >
+                <option value="">Select</option>
+                {days.map((d, idx) => (
+                  <option key={d} value={idx}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Filtered by Studio Location</span>
               <select
                 className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 onChange={(e) => handleStudioChange(e.target.value)}
@@ -293,7 +359,7 @@ const BookingPage = () => {
                 <option value="">Select</option>
                 {studios.map((studio) => (
                   <option key={studio.id} value={studio.id}>
-                    {studio.name}
+                    {studio.name}, {studio.city}
                   </option>
                 ))}
               </select>
@@ -314,7 +380,12 @@ const BookingPage = () => {
               </select>
             </label>
             <div>
-              <table className="table-auto border-collapse">
+              {specialists.map((row, rkey) => (
+                <ProfileCard key={rkey} profile={row} />
+              ))}
+            </div>
+            <div>
+              {/* <table className="table-auto border-collapse">
                 <thead>
                   <tr>
                     {Object.keys(dummySpecialists[0]).map((title, idx) => (
@@ -329,13 +400,15 @@ const BookingPage = () => {
                     <tr key={rkey}>
                       {Object.keys(row).map((rname, ckey) => (
                         <td className="px-6 py-3" key={ckey}>
-                          {row[rname]}
+                          {rname === "availibilities"
+                            ? row[rname].join(", ")
+                            : row[rname]}
                         </td>
                       ))}
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table> */}
             </div>
             <label className="block">
               <span className="text-gray-700">Select Date</span>
@@ -368,89 +441,7 @@ const BookingPage = () => {
           {appointments.map((apt, key) => (
             <div key={key}>{JSON.stringify(apt)}</div>
           ))}
-          <h2 className="text-2xl mt-4">GTD</h2>
-          <ol className="list-decimal list-inside">
-            <li className="flex items-center">
-              <svg
-                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-              </svg>
-              Create customer
-            </li>
-            <li className="flex items-center">
-              <svg
-                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-              </svg>
-              Create studio
-            </li>
-            <li className="flex items-center">
-              <svg
-                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-              </svg>
-              Create specialist
-            </li>
-            <li className="flex items-center">
-              <svg
-                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-              </svg>
-              Create appointment
-            </li>
-            <li className="flex items-center">
-              <svg
-                className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-              </svg>
-              view appointment
-            </li>
-            <li>Appointment should be able to reschedule and cancel</li>
-            <li>Appointment conflict checking</li>
-            <li>
-              Can studio has their own seperate system that won't share with
-              platform
-            </li>
-            <li>Auth system to manage the role and permissions</li>
-            <li>Check in manager for appointment tracking</li>
-            <li>
-              Can a special manage their schedule in the Studio? Should a studio
-              manager approval their schedule update?
-            </li>
-            <li>
-              Should a studio owner has multiple studios and or one studio has
-              multiple studio owners?
-            </li>
-            <li>
-              We need track down all actions, including who update what kind
-              content, in case we need provide customer support.
-            </li>
-          </ol>
+          <ReleaseLog />
         </div>
       </div>
     </div>
