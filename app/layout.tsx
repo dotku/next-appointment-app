@@ -2,8 +2,9 @@ import "../src/index.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "React App",
-  description: "Web site created with Next.js.",
+  title: "Appointment Booking App",
+  description:
+    "Appointment App is used to book appointment between customer and specialists.",
 };
 
 export default function RootLayout({
