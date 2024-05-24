@@ -40,17 +40,22 @@ export default function ReleaseLog() {
           Filters with day and location
         </li>
         <hr className="my-4" />
-        <h3 className="text-xl">GTD</h3>
-        <li>Appointment conflict checking</li>
-        <li>Appointment should be able to reschedule and cancel</li>
+        <h3 className="text-xl">FAQs</h3>
         <li>
-          Can studio has their own seperate system that won't share with
-          platform?
+          <p>
+            Can studio has their own seperate system that won't share with
+            platform?
+          </p>
           <p className="text-gray-500">
             We are focusing on consumer market at this moment.
           </p>
         </li>
-        <li>Auth system to manage the role and permissions</li>
+        <hr className="my-4" />
+        <h3 className="text-xl">GTD</h3>
+        <li>Auth system to manage the role and permissions: Supabase Auth</li>
+        <li>Appointment conflict checking</li>
+        <li>Appointment should be able to reschedule and cancel</li>
+
         <li>Check in manager for appointment tracking</li>
         <li>
           Can a special manage their schedule in the Studio? Should a studio
