@@ -39,29 +39,34 @@ export default function ReleaseLog() {
           <CheckIcon />
           Filters with day and location
         </li>
-        <hr className="my-4" />
-        <h3 className="text-xl">FAQs</h3>
+      </ol>
+      <hr className="my-4" />
+      <h3 className="text-xl">FAQs</h3>
+      <ol className="list-decimal list-inside">
         <li>
           Can studio has their own seperate system that won't share with
-          platform?
+          platform? Should a studio owner has multiple studios and or one studio
+          has multiple studio owners?
           <p className="text-gray-500">
             We are focusing on consumer market at this moment.
           </p>
         </li>
-        <hr className="my-4" />
-        <h3 className="text-xl">GTD</h3>
+        <li>
+          Can a specialist manage their schedule in the Studio? Should a studio
+          manager approval their schedule update?
+          <p className="text-gray-500">
+            Yes, a specialist can managee the schedule and so does the customer,
+            but we don't have studio manager feature yet.
+          </p>
+        </li>
+      </ol>
+      <hr className="my-4" />
+      <h3 className="text-xl">GTD</h3>
+      <ol className="list-decimal list-inside">
         <li>Auth system to manage the role and permissions: Supabase Auth</li>
         <li>Appointment conflict checking</li>
         <li>Appointment should be able to reschedule and cancel</li>
-        <li>Check in manager for appointment tracking</li>
-        <li>
-          Can a special manage their schedule in the Studio? Should a studio
-          manager approval their schedule update?
-        </li>
-        <li>
-          Should a studio owner has multiple studios and or one studio has
-          multiple studio owners?
-        </li>
+        <li>Check-in manager for appointment tracking</li>
         <li>
           We need track down all actions, including who update what kind
           content, in case we need provide customer support.

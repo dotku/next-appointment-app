@@ -209,7 +209,7 @@ const BookingPage = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-3 gap-4 grid-xs-cols-1">
         <div>
           <h2 className="text-2xl">Administration</h2>
           <p className="text-gray-400">
