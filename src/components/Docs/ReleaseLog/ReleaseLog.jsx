@@ -42,10 +42,8 @@ export default function ReleaseLog() {
         <hr className="my-4" />
         <h3 className="text-xl">FAQs</h3>
         <li>
-          <p>
-            Can studio has their own seperate system that won't share with
-            platform?
-          </p>
+          Can studio has their own seperate system that won't share with
+          platform?
           <p className="text-gray-500">
             We are focusing on consumer market at this moment.
           </p>
@@ -55,7 +53,6 @@ export default function ReleaseLog() {
         <li>Auth system to manage the role and permissions: Supabase Auth</li>
         <li>Appointment conflict checking</li>
         <li>Appointment should be able to reschedule and cancel</li>
-
         <li>Check in manager for appointment tracking</li>
         <li>
           Can a special manage their schedule in the Studio? Should a studio
