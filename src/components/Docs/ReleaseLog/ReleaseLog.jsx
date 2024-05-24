@@ -10,35 +10,25 @@ const CheckIcon = () => (
   </svg>
 );
 
+const CheckListItem = ({ children }) => (
+  <li className="flex items-center">
+    <CheckIcon />
+    {children}
+  </li>
+);
+
 export default function ReleaseLog() {
   return (
     <>
       <h2 className="text-2xl mt-4">Release Log</h2>
       <ol className="list-decimal list-inside">
-        <li className="flex items-center">
-          <CheckIcon />
-          Create customer
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          Create studio
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          Create specialist
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          Create appointment
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          View appointment
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          Filters with day and location
-        </li>
+        <CheckListItem>Create customer</CheckListItem>
+        <CheckListItem>Create studio</CheckListItem>
+        <CheckListItem>Create specialist</CheckListItem>
+        <CheckListItem>Create appointment</CheckListItem>
+        <CheckListItem>View appointment</CheckListItem>
+        <CheckListItem>Specilist first workflow</CheckListItem>
+        <CheckListItem>Filters with day and location</CheckListItem>
       </ol>
       <hr className="my-4" />
       <h3 className="text-xl">FAQs</h3>
@@ -47,17 +37,21 @@ export default function ReleaseLog() {
           Can studio has their own seperate system that won't share with
           platform? Should a studio owner has multiple studios and or one studio
           has multiple studio owners?
-          <p className="text-gray-500">
-            We are focusing on consumer market at this moment.
-          </p>
+          <div className="m-4">
+            <p className="text-gray-400">
+              We are focusing on consumer market at this moment.
+            </p>
+          </div>
         </li>
         <li>
           Can a specialist manage their schedule in the Studio? Should a studio
           manager approval their schedule update?
-          <p className="text-gray-500">
-            Yes, a specialist can managee the schedule and so does the customer,
-            but we don't have studio manager feature yet.
-          </p>
+          <div className="m-4">
+            <p className="text-gray-400">
+              Yes, a specialist can managee the schedule and so does the
+              customer, but we don't have studio manager feature yet.
+            </p>
+          </div>
         </li>
       </ol>
       <hr className="my-4" />
