@@ -57,7 +57,11 @@ export default function ReleaseLog() {
       <hr className="my-4" />
       <h3 className="text-xl">GTD</h3>
       <ol className="list-decimal list-inside">
-        <li>Auth system to manage the role and permissions: Supabase Auth</li>
+        <li>
+          Auth system to manage the role and permissions: Supabase Auth with
+          [super, specialist, customers]
+        </li>
+        <li>Specialist approval system</li>
         <li>Appointment conflict checking</li>
         <li>Appointment should be able to reschedule and cancel</li>
         <li>Check-in manager for appointment tracking</li>
