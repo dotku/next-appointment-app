@@ -57,6 +57,7 @@ export default function ReleaseLog() {
       <hr className="my-4" />
       <h3 className="text-xl">GTD</h3>
       <ol className="list-decimal list-inside">
+        <li>Redux for next.js</li>
         <li>
           Auth system to manage the role and permissions: Supabase Auth with
           [super, specialist, customers]
