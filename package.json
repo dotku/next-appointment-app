@@ -5,6 +5,9 @@
   "dependencies": {
     "@nextui-org/react": "^2.3.6",
     "@reduxjs/toolkit": "^2.2.5",
+    "@supabase/auth-ui-react": "^0.4.7",
+    "@supabase/auth-ui-shared": "^0.1.8",
+    "@supabase/supabase-js": "^2.43.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -19,9 +22,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "npx next dev --turbo",
-    "build": "npx next build",
-    "start": "npx next start",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "cra:start": "react-scripts start",
     "cra:build": "react-scripts build",
     "test": "react-scripts test",
