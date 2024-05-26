@@ -437,7 +437,7 @@ const BookingPage = () => {
           </button>
         </div>
         <div className="col-span-1">
-          <h2 className="text-2xl">Appointment View</h2>
+          <h2 className="text-2xl mb-2">Appointment View</h2>
           {appointments.map((apt, key) => (
             <div key={key}>{JSON.stringify(apt)}</div>
           ))}

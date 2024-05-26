@@ -20,7 +20,7 @@ const CheckListItem = ({ children }) => (
 export default function ReleaseLog() {
   return (
     <>
-      <h2 className="text-2xl mt-4">Release Log</h2>
+      <h2 className="text-2xl mt-4 mb-2">Release 😎</h2>
       <ol className="list-decimal list-inside">
         <CheckListItem>Create customer</CheckListItem>
         <CheckListItem>Create studio</CheckListItem>
@@ -31,7 +31,7 @@ export default function ReleaseLog() {
         <CheckListItem>Filters with day and location</CheckListItem>
       </ol>
       <hr className="my-4" />
-      <h3 className="text-xl">FAQs</h3>
+      <h3 className="text-xl mb-2">FAQs 🤔️</h3>
       <ol className="list-decimal list-inside">
         <li>
           Can studio has their own seperate system that won't share with
@@ -55,7 +55,7 @@ export default function ReleaseLog() {
         </li>
       </ol>
       <hr className="my-4" />
-      <h3 className="text-xl">GTD</h3>
+      <h3 className="text-xl mb-2">GTD 🏷️</h3>
       <ol className="list-decimal list-inside">
         <li>Redux for next.js</li>
         <li>
@@ -70,6 +70,11 @@ export default function ReleaseLog() {
           We need track down all actions, including who update what kind
           content, in case we need provide customer support.
         </li>
+      </ol>
+      <hr className="my-4" />
+      <h3 className="text-xl mb-2">Nice to have 💡</h3>
+      <ol className="list-decimal list-inside">
+        <li>Google calendar integration</li>
       </ol>
     </>
   );

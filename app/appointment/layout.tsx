@@ -7,15 +7,15 @@ export const metadata: Metadata = {
     "Appointment App is used to book appointment between customer and specialists.",
 };
 
-export default function RootLayout({
+export default function AppointmentLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <>
-      <AppNavbar slug="admin" />
-      {children}
+      <AppNavbar slug="appointment" />
+      <div className="container mx-auto px-6">{children}</div>
     </>
   );
 }

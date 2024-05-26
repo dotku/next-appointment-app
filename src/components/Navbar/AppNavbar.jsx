@@ -1,18 +1,30 @@
+"use client";
+
 import React from "react";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
   DropdownItem,
   DropdownTrigger,
   Dropdown,
   DropdownMenu,
   Avatar,
 } from "@nextui-org/react";
+import Link from "next/link";
+// import { useRouter } from "next/router";
+import styled from "styled-components";
 
-export default function AppNavbar() {
+const CustomAvatar = styled.div`
+  .transition-opacity {
+    transition: none !important;
+    opacity: 100;
+  }
+`;
+
+export default function AppNavbar({ slug }) {
+  // const router = useRouter();
   return (
     <Navbar maxWidth="2xl">
       <NavbarBrand>
@@ -20,24 +32,24 @@ export default function AppNavbar() {
       </NavbarBrand>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive>
+        <NavbarItem isActive={["home", "/"].includes(slug)}>
           <Link color="foreground" href="/">
             Home
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={["admin"].includes(slug)}>
           <Link color="foreground" href="admin">
             Admin
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={["appointment"].includes(slug)}>
           <Link color="foreground" href="appointment">
             Appointment
           </Link>
         </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="blog">
-            Blog
+        <NavbarItem isActive={["doc"].includes(slug)}>
+          <Link color="foreground" href="/doc">
+            Doc
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -45,15 +57,16 @@ export default function AppNavbar() {
       <NavbarContent as="div" justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="secondary"
-              name="Jason Hughes"
-              size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            />
+            <CustomAvatar>
+              <Avatar
+                isBordered
+                as="button"
+                color="secondary"
+                name="Jason Hughes"
+                size="sm"
+                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              />
+            </CustomAvatar>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">

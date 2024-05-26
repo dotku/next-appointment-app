@@ -14,7 +14,7 @@ function App() {
   );
   return (
     <div>
-      <AppNavbar />
+      <AppNavbar slug="home" />
       <div className="container mx-auto px-6">
         <Header />
         <hr className="my-4" />
