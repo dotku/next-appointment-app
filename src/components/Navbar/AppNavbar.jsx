@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -11,10 +11,12 @@ import {
   Dropdown,
   DropdownMenu,
   Avatar,
+  DropdownSection,
 } from "@nextui-org/react";
 import Link from "next/link";
 // import { useRouter } from "next/router";
 import styled from "styled-components";
+import supabase from "../../services/supabase";
 
 const CustomAvatar = styled.div`
   .transition-opacity {
@@ -24,8 +26,37 @@ const CustomAvatar = styled.div`
 `;
 
 export default function AppNavbar({ slug }) {
+  const [session, setSession] = useState(null);
   // const router = useRouter();
+
   console.log("slug", slug);
+
+  useEffect(() => {
+    // Check current session
+    const getSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setSession(session);
+    };
+
+    getSession();
+
+    // Listen for changes in the authentication state
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
+
+  console.log("session", session);
+
   return (
     <Navbar maxWidth="2xl">
       <NavbarBrand>
@@ -67,24 +98,35 @@ export default function AppNavbar({ slug }) {
                 color="secondary"
                 name="Jason Hughes"
                 size="sm"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                src={`https://i.pravatar.cc/150?u=${
+                  session ? session.user.email : null
+                }`}
               />
             </CustomAvatar>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
-            </DropdownItem>
-            <DropdownItem key="settings">My Settings</DropdownItem>
-            <DropdownItem key="team_settings">Team Settings</DropdownItem>
-            <DropdownItem key="analytics">Analytics</DropdownItem>
-            <DropdownItem key="system">System</DropdownItem>
-            <DropdownItem key="configurations">Configurations</DropdownItem>
-            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-            <DropdownItem key="logout" color="danger">
-              Log Out
-            </DropdownItem>
+            <DropdownSection showDivider>
+              <DropdownItem key="profile" className="h-14 gap-2">
+                <p className="font-semibold">Signed in as</p>
+                <p className="font-semibold">
+                  {session ? session.user.email : null}
+                </p>
+              </DropdownItem>
+              <DropdownItem key="finder">Finder</DropdownItem>
+              <DropdownItem key="provider">Provider</DropdownItem>
+              <DropdownItem key="schedule">Scheduler</DropdownItem>
+              <DropdownItem key="profile">Profile</DropdownItem>
+            </DropdownSection>
+            <DropdownSection title="Help" showDivider>
+              <DropdownItem key="help_and_feedback">
+                Help & Feedback
+              </DropdownItem>
+            </DropdownSection>
+            <DropdownSection>
+              <DropdownItem key="logout" color="danger" className="text-danger">
+                Log Out
+              </DropdownItem>
+            </DropdownSection>
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
