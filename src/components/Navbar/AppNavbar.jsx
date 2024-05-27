@@ -25,10 +25,13 @@ const CustomAvatar = styled.div`
 
 export default function AppNavbar({ slug }) {
   // const router = useRouter();
+  console.log("slug", slug);
   return (
     <Navbar maxWidth="2xl">
       <NavbarBrand>
-        <p className="font-bold text-inherit">AptApp</p>
+        <Link className="font-bold text-inherit" href="/">
+          AptApp
+        </Link>
       </NavbarBrand>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">

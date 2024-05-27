@@ -14,7 +14,7 @@ export default function AppointmentLayout({
 }) {
   return (
     <>
-      <AppNavbar slug="appointment" />
+      <AppNavbar slug="auth" />
       <div className="container mx-auto px-6">{children}</div>
     </>
   );
