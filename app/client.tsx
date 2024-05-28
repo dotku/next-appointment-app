@@ -2,8 +2,9 @@
 
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
+import { Auth } from "@supabase/auth-ui-react";
 
-const ReactApp = dynamic(() => import("../src/App"), { ssr: false });
+const ReactApp = dynamic(() => import("./App"), { ssr: false });
 
 export default function App() {
   console.log("clients");

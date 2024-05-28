@@ -1,9 +1,9 @@
 "use client";
 
 import "./App.css";
-import BookingPage from "./components/Customer/BookingPage";
+import BookingPage from "../src/components/Customer/BookingPage";
 import AppNavbar from "./components/Navbar/AppNavbar";
-import Header from "./components/Common/Header/HomeHeader";
+import Header from "../src/components/Common/Header/HomeHeader";
 
 function App() {
   console.log(
