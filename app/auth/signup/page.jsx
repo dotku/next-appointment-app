@@ -61,7 +61,7 @@ const AppAuth = () => {
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
           providers={[]}
-          view="sign_in"
+          view="sign_up"
           redirectTo="/auth"
         />
       )}

@@ -17,8 +17,6 @@ function AppNavbar({ slug }) {
   const [session, setSession] = useState(null);
   const [mounted, setMounted] = useState(false);
 
-  console.log("slug", slug);
-
   useEffect(() => {
     // Check current session
     const getSession = async () => {

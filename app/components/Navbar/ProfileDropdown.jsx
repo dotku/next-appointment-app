@@ -10,11 +10,11 @@ import {
   DropdownTrigger,
   NavbarContent,
 } from "@nextui-org/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import supabase from "src/services/supabase";
 import styled from "styled-components";
+import SignUpButton from "../Auth/SignUpButton";
 
 const CustomAvatar = styled.div`
   .transition-opacity {
@@ -64,9 +64,7 @@ export default function ProfileDropdown() {
                 src={`https://api.dicebear.com/8.x/adventurer/svg?seed=${session.user.email}`}
               />
             ) : (
-              <Button href="/auth" variant="bordered" as={Link}>
-                Sign up
-              </Button>
+              <SignUpButton />
             )}
           </CustomAvatar>
         </DropdownTrigger>

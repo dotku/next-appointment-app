@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import ReleaseLog from "../Docs/ReleaseLog/ReleaseLog";
 import ProfileCard from "../Elements/ProfileCard";
 import { days } from "../Elements/Calendar";
+import supabase from "src/services/supabase";
 
 // Dummy data
 const dummyUsers = [
@@ -73,6 +74,27 @@ const BookingPage = () => {
   const [newSpecialistName, setNewSpecialistName] = useState("");
 
   useEffect(() => {
+    // Check current session
+    const getSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      console.log("session", session);
+      if (session) {
+        const { user } = session;
+        //   { id: 3, name: "User Three" },
+        setCustomers([
+          ...dummyUsers,
+          {
+            id: user.id,
+            name: user.email,
+          },
+        ]);
+        setSelectedCustomer(user.id);
+      }
+    };
+
+    getSession();
     // Load studios (dummy data)
     setCustomers(dummyUsers);
     setStudios(dummyStudios);
@@ -165,10 +187,10 @@ const BookingPage = () => {
       alert("please select customer");
       return;
     }
-    if (!selectedStudio) {
-      alert("please select studio");
-      return;
-    }
+    // if (!selectedStudio) {
+    //   alert("please select studio");
+    //   return;
+    // }
     if (!selectedSpecialist) {
       alert("please select specialist");
       return;
@@ -182,7 +204,6 @@ const BookingPage = () => {
       {
         id: appointments[0].id + 1,
         customerId: selectedCustomer,
-        studioId: selectedStudio,
         specialistId: selectedSpecialist,
         date: bookingDate,
         time: bookingTime,
@@ -190,12 +211,12 @@ const BookingPage = () => {
       ...appointments,
     ]);
     // Clear the form
-    setSelectedCustomer(null);
-    setSelectedStudio(null);
-    setSelectedSpecialist(null);
+    // setSelectedCustomer(null);
+    // setSelectedStudio(null);
+    // setSelectedSpecialist(null);
 
-    setBookingDate("");
-    setBookingTime("");
+    // setBookingDate("");
+    // setBookingTime("");
   };
 
   const handleFilterSpecilistAvailibilitiesChange = (v) => {
