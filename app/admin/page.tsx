@@ -1,5 +1,10 @@
 "use client";
+import Admin from "../../src/components/Admin";
 
-export default function Admin() {
-  return <div className="container mx-auto px-6">Admin</div>;
+export default function AdminPage() {
+  return (
+    <div>
+      <Admin />
+    </div>
+  );
 }
