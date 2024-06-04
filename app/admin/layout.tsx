@@ -1,6 +1,5 @@
-import "../src/index.css";
 import type { Metadata } from "next";
-import StoreProvider from "./StoreProvider";
+import AppNavbar from "../components/Navbar/AppNavbar";
 
 export const metadata: Metadata = {
   title: "Appointment Booking App",
@@ -13,14 +12,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const initialCount = 0;
   return (
-    <html lang="en">
-      <body>
-        <div id="root">
-          <StoreProvider count={initialCount}>{children}</StoreProvider>
-        </div>
-      </body>
-    </html>
+    <>
+      <AppNavbar slug="admin" />
+      <div className="container mx-auto px-6">{children}</div>
+    </>
   );
 }

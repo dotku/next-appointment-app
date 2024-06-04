@@ -1,11 +1,10 @@
-import dynamic from "next/dynamic";
-
-const App = dynamic(() => import("../src/App"), { ssr: false });
+import App from "./App";
 
 export function generateStaticParams() {
   return [{ slug: [""] }];
 }
 
-export default function Page() {
-  return <App />; // We'll update this
+export default function Page({ params }: { params: { slug: string } }) {
+  console.log("params.slug", params.slug);
+  return <App />;
 }

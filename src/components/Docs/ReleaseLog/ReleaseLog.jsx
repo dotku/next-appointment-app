@@ -10,65 +10,71 @@ const CheckIcon = () => (
   </svg>
 );
 
+const CheckListItem = ({ children }) => (
+  <li className="flex items-center">
+    <CheckIcon />
+    {children}
+  </li>
+);
+
 export default function ReleaseLog() {
   return (
     <>
-      <h2 className="text-2xl mt-4">Release Log</h2>
+      <h2 className="text-2xl mt-4 mb-2">Release 😎</h2>
       <ol className="list-decimal list-inside">
-        <li className="flex items-center">
-          <CheckIcon />
-          Create customer
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          Create studio
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          Create specialist
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          Create appointment
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          View appointment
-        </li>
-        <li className="flex items-center">
-          <CheckIcon />
-          Filters with day and location
-        </li>
-        <hr className="my-4" />
-        <h3 className="text-xl">FAQs</h3>
+        <CheckListItem>Create customer</CheckListItem>
+        <CheckListItem>Create studio</CheckListItem>
+        <CheckListItem>Create specialist</CheckListItem>
+        <CheckListItem>Create appointment</CheckListItem>
+        <CheckListItem>View appointment</CheckListItem>
+        <CheckListItem>Specilist first workflow</CheckListItem>
+        <CheckListItem>Filters with day and location</CheckListItem>
+      </ol>
+      <hr className="my-4" />
+      <h3 className="text-xl mb-2">FAQs 🤔️</h3>
+      <ol className="list-decimal list-inside">
         <li>
-          <p>
-            Can studio has their own seperate system that won't share with
-            platform?
-          </p>
-          <p className="text-gray-500">
-            We are focusing on consumer market at this moment.
-          </p>
+          Can studio has their own seperate system that won't share with
+          platform? Should a studio owner has multiple studios and or one studio
+          has multiple studio owners?
+          <div className="m-4">
+            <p className="text-gray-400">
+              We are focusing on consumer market at this moment.
+            </p>
+          </div>
         </li>
-        <hr className="my-4" />
-        <h3 className="text-xl">GTD</h3>
-        <li>Auth system to manage the role and permissions: Supabase Auth</li>
+        <li>
+          Can a specialist manage their schedule in the Studio? Should a studio
+          manager approval their schedule update?
+          <div className="m-4">
+            <p className="text-gray-400">
+              Yes, a specialist can managee the schedule and so does the
+              customer, but we don't have studio manager feature yet.
+            </p>
+          </div>
+        </li>
+      </ol>
+      <hr className="my-4" />
+      <h3 className="text-xl mb-2">GTD 🏷️</h3>
+      <ol className="list-decimal list-inside">
+        <li>Redux for next.js</li>
+        <li>
+          Auth system to manage the role and permissions: Supabase Auth with
+          [super, specialist, customers]
+        </li>
+        <li>Specialist approval system</li>
         <li>Appointment conflict checking</li>
         <li>Appointment should be able to reschedule and cancel</li>
-
-        <li>Check in manager for appointment tracking</li>
-        <li>
-          Can a special manage their schedule in the Studio? Should a studio
-          manager approval their schedule update?
-        </li>
-        <li>
-          Should a studio owner has multiple studios and or one studio has
-          multiple studio owners?
-        </li>
+        <li>Check-in manager for appointment tracking</li>
         <li>
           We need track down all actions, including who update what kind
           content, in case we need provide customer support.
         </li>
+      </ol>
+      <hr className="my-4" />
+      <h3 className="text-xl mb-2">Nice to have 💡</h3>
+      <ol className="list-decimal list-inside">
+        <li>Google calendar integration</li>
       </ol>
     </>
   );
