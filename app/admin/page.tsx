@@ -1,5 +1,10 @@
 "use client";
-import Admin from "../../src/components/Admin";
+import dynamic from "next/dynamic";
+// import Admin from "../../src/components/Admin";
+
+const Admin = dynamic(() => import("../../src/components/Admin"), {
+  ssr: false,
+});
 
 export default function AdminPage() {
   return (
