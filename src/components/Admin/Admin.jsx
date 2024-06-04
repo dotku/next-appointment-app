@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import supabase from "src/services/supabase";
+import supabase from "../../src/services/supabase";
 
 const dummyUsers = [
   { id: 1, name: "User One" },
