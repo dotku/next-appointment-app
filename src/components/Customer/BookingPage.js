@@ -5,13 +5,7 @@ import ReleaseLog from "../Docs/ReleaseLog/ReleaseLog";
 import ProfileCard from "../Elements/ProfileCard";
 import { days } from "../Elements/Calendar";
 import supabase from "src/services/supabase";
-
-// Dummy data
-const dummyUsers = [
-  { id: 1, name: "User One" },
-  { id: 2, name: "User Two" },
-  { id: 3, name: "User Three" },
-];
+import { useAppSelector } from "@/lib/hooks";
 
 const dummyStudios = [
   { id: 1, name: "Studio One", city: "San Francisco" },
@@ -53,7 +47,8 @@ const dummyAppointments = [
 ];
 
 const BookingPage = () => {
-  const [customers, setCustomers] = useState([]);
+  const users = useAppSelector((state) => state.users.value);
+  const [customers, setCustomers] = useState(users);
   const [studios, setStudios] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
