@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div id="root">
-          <StoreProvider count={initialCount}>{children}</StoreProvider>
+          <StoreProvider>{children}</StoreProvider>
         </div>
       </body>
     </html>
