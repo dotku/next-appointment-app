@@ -28,18 +28,22 @@ export const usersSlice = createAppSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: (creator) => ({
-    create: creator.reducer((state, action: PayloadAction<User>) => {
+    createUser: creator.reducer((state, action: PayloadAction<User>) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.value.unshift(action.payload);
     }),
-    remove: creator.reducer((state, action: PayloadAction<{ id: number }>) => {
-      state.value = state.value.filter((item) => item.id === action.payload.id);
-    }),
+    removeUser: creator.reducer(
+      (state, action: PayloadAction<{ id: number }>) => {
+        state.value = state.value.filter(
+          (item) => item.id === action.payload.id
+        );
+      }
+    ),
     // Use the `PayloadAction` type to declare the contents of `action.payload`
-    update: creator.reducer((state, action: PayloadAction<User>) => {
+    updateUsers: creator.reducer((state, action: PayloadAction<User>) => {
       const updatedUsers = state.value.map((user) =>
         user.id === action.payload.id ? action.payload : user
       );
@@ -54,6 +58,7 @@ export const usersSlice = createAppSlice({
       async (users: User[]) => {
         const response = await fetchUsers(users);
         // The value we return becomes the `fulfilled` action payload
+        console.log("updatedUsersAsync", response);
         return response.data;
       },
       {
@@ -62,7 +67,7 @@ export const usersSlice = createAppSlice({
         },
         fulfilled: (state, action: PayloadAction<User[]>) => {
           state.status = "idle";
-          state.value.unshift(...action.payload);
+          state.value = action.payload;
         },
         rejected: (state) => {
           state.status = "failed";
@@ -79,7 +84,7 @@ export const usersSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function.
-export const { create, remove, updatedUsersAsync } = usersSlice.actions;
+export const { createUser, removeUser, updatedUsersAsync } = usersSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
 export const { selectUsers, selectStatus } = usersSlice.selectors;

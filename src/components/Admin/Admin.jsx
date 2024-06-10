@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import supabase from "../../services/supabase";
-
-const dummyUsers = [
-  { id: 1, name: "User One" },
-  { id: 2, name: "User Two" },
-  { id: 3, name: "User Three" },
-];
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { createUser } from "@/lib/features/users/usersSlice";
 
 const dummyStudios = [
   { id: 1, name: "Studio One", city: "San Francisco" },
@@ -47,6 +43,8 @@ const dummyAppointments = [
 ];
 
 export default function Admin() {
+  const users = useAppSelector((state) => state.users);
+  const dispatch = useAppDispatch();
   const [studios, setStudios] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [newStudioName, setNewStudioName] = useState("");
@@ -71,20 +69,20 @@ export default function Admin() {
       if (session) {
         const { user } = session;
         //   { id: 3, name: "User Three" },
-        setCustomers([
-          ...dummyUsers,
-          {
-            id: user.id,
-            name: user.email,
-          },
-        ]);
+        // setCustomers([
+        //   ...users,
+        //   {
+        //     id: user.id,
+        //     name: user.email,
+        //   },
+        // ]);
         setSelectedCustomer(user.id);
       }
     };
 
     getSession();
     // Load studios (dummy data)
-    setCustomers(dummyUsers);
+    setCustomers(users.value);
     setStudios(dummyStudios);
     setSpecialists(dummySpecialists);
     setAppointments(dummyAppointments);
@@ -95,13 +93,19 @@ export default function Admin() {
       alert("please enter new customer name");
       return;
     }
-    setCustomers([
-      ...customers,
-      {
-        id: customers[customers.length - 1].id + 1,
+    // setCustomers([
+    //   ...customers,
+    //   {
+    //     id: customers[customers.length - 1].id + 1,
+    //     name: newCustomerName,
+    //   },
+    // ]);
+    dispatch(
+      createUser({
+        id: users.value.length + 1,
         name: newCustomerName,
-      },
-    ]);
+      })
+    );
     setNewCustomerName("");
   };
 
@@ -172,7 +176,7 @@ export default function Admin() {
           Add
         </button>
         <pre className="text-gray-400">
-          {JSON.stringify(customers, null, 2)}
+          {JSON.stringify(users.value, null, 2)}
         </pre>
         <h2 className="text-xl mt-4">Studios</h2>
         <label className="block w-80">

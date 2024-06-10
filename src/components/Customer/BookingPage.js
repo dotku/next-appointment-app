@@ -6,6 +6,9 @@ import ProfileCard from "../Elements/ProfileCard";
 import { days } from "../Elements/Calendar";
 import supabase from "src/services/supabase";
 import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/store/store";
+import { createUser, updatedUsersAsync } from "@/lib/features/users/usersSlice";
+import { Spinner } from "@nextui-org/react";
 
 const dummyStudios = [
   { id: 1, name: "Studio One", city: "San Francisco" },
@@ -47,8 +50,9 @@ const dummyAppointments = [
 ];
 
 const BookingPage = () => {
-  const users = useAppSelector((state) => state.users.value);
-  const [customers, setCustomers] = useState(users);
+  const users = useAppSelector((state) => state.users);
+  const dispatch = useAppDispatch();
+  const [customers, setCustomers] = useState(users.value);
   const [studios, setStudios] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -78,20 +82,22 @@ const BookingPage = () => {
       if (session) {
         const { user } = session;
         //   { id: 3, name: "User Three" },
-        setCustomers([
-          ...dummyUsers,
-          {
-            id: user.id,
-            name: user.email,
-          },
-        ]);
+        dispatch(
+          updatedUsersAsync([
+            ...users.value,
+            {
+              id: user.id,
+              name: user.email,
+            },
+          ])
+        );
         setSelectedCustomer(user.id);
       }
     };
 
     getSession();
     // Load studios (dummy data)
-    setCustomers(dummyUsers);
+    // setCustomers(users);
     setStudios(dummyStudios);
     setSpecialists(dummySpecialists);
     setAppointments(dummyAppointments);
@@ -151,13 +157,19 @@ const BookingPage = () => {
       alert("please enter new customer name");
       return;
     }
-    setCustomers([
-      ...customers,
-      {
-        id: customers[customers.length - 1].id + 1,
+    // setCustomers([
+    //   ...customers,
+    //   {
+    //     id: customers[customers.length - 1].id + 1,
+    //     name: newCustomerName,
+    //   },
+    // ]);
+    dispatch(
+      createUser({
+        id: users.value.length + 1,
         name: newCustomerName,
-      },
-    ]);
+      })
+    );
     setNewCustomerName("");
   };
 
@@ -248,9 +260,14 @@ const BookingPage = () => {
           >
             Add
           </button>
-          <pre className="text-gray-400">
-            {JSON.stringify(customers, null, 2)}
-          </pre>
+
+          {users.status === "loading" ? (
+            <Spinner />
+          ) : (
+            <pre className="text-gray-400">
+              {JSON.stringify(users.value, null, 2)}
+            </pre>
+          )}
           <h2 className="text-xl mt-4">Studios</h2>
           <label className="block w-80">
             <span className="text-gray-700">studio name</span>

@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import styled from "styled-components";
-import supabase from "../../../src/services/supabase";
+import supabase from "../../../services/supabase";
 import ProfileDropdown from "./ProfileDropdown";
 
 function AppNavbar({ slug }) {
