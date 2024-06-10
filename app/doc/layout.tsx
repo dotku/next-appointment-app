@@ -1,4 +1,4 @@
-import AppNavbar from "../components/Navbar/AppNavbar";
+import AppNavbar from "../../src/components/Common/Navbar/AppNavbar";
 
 export default function layout({ children }) {
   return (

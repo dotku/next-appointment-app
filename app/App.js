@@ -2,7 +2,7 @@
 
 import "./App.css";
 import BookingPage from "../src/components/Customer/BookingPage";
-import AppNavbar from "./components/Navbar/AppNavbar";
+import AppNavbar from "../src/components/Common/Navbar/AppNavbar";
 import Header from "../src/components/Common/Header/HomeHeader";
 
 function App() {

@@ -14,9 +14,7 @@
       "isolatedModules": true,
       "jsx": "preserve",
       "baseUrl": ".",
-      "paths": {
-        "@/src/*": ["src/*"]
-      },
+      "paths": { "@/*": ["./*"] },
       "incremental": true,
       "plugins": [
         {
@@ -31,6 +29,6 @@
       "**/*.tsx",
       ".next/types/**/*.ts",
       "./dist/types/**/*.ts"
-    ],
+, "app/counter/page._tsx", "lib/features/users/usersSlice.js", "lib/features/user/userAPI.js"    ],
     "exclude": ["node_modules"]
   }

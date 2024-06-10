@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AppNavbar from "../components/Navbar/AppNavbar";
+import AppNavbar from "../../src/components/Common/Navbar/AppNavbar";
 
 export const metadata: Metadata = {
   title: "Appointment Booking App",
