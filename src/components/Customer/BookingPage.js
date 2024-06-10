@@ -9,6 +9,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { useAppDispatch } from "@/store/store";
 import { createUser, updatedUsersAsync } from "@/lib/features/users/usersSlice";
 import { Spinner } from "@nextui-org/react";
+import StateViewer from "@/src/components/Admin/StateViewer";
 
 const dummyStudios = [
   { id: 1, name: "Studio One", city: "San Francisco" },
@@ -81,16 +82,18 @@ const BookingPage = () => {
       console.log("session", session);
       if (session) {
         const { user } = session;
+        const ifFound = users.value.find((v) => v.id === user.id);
         //   { id: 3, name: "User Three" },
-        dispatch(
-          updatedUsersAsync([
-            ...users.value,
-            {
-              id: user.id,
-              name: user.email,
-            },
-          ])
-        );
+        !ifFound &&
+          dispatch(
+            updatedUsersAsync([
+              ...users.value,
+              {
+                id: user.id,
+                name: user.email,
+              },
+            ])
+          );
         setSelectedCustomer(user.id);
       }
     };
@@ -470,10 +473,8 @@ const BookingPage = () => {
           </button>
         </div>
         <div className="col-span-1">
-          <h2 className="text-2xl mb-2">Appointment View</h2>
-          {appointments.map((apt, key) => (
-            <div key={key}>{JSON.stringify(apt)}</div>
-          ))}
+          <h2 className="text-2xl mb-2">Dashboard</h2>
+          <StateViewer />
           <ReleaseLog />
         </div>
       </div>
