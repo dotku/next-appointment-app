@@ -14,8 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <AppNavbar slug="admin" />
-      <div className="container mx-auto px-6">{children}</div>
+      <AppNavbar slug="admin" theme="dark" />
+      <div className="px-6">{children}</div>
     </>
   );
 }

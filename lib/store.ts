@@ -3,6 +3,7 @@ import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { counterSlice } from "./features/counter/counterSlice";
 import { usersSlice } from "./features/users/usersSlice";
 import { appointmentsSlice } from "./features/appointments/appointmentsSlice";
+import { businessesSlice } from "./features/businesses/businessesSlice";
 
 // import { quotesApiSlice } from "./features/quotes/quotesApiSlice";
 
@@ -11,7 +12,8 @@ import { appointmentsSlice } from "./features/appointments/appointmentsSlice";
 const rootReducer = combineSlices(
   appointmentsSlice,
   counterSlice,
-  usersSlice
+  usersSlice,
+  businessesSlice
   // quotesApiSlice
 );
 // Infer the `RootState` type from the root reducer

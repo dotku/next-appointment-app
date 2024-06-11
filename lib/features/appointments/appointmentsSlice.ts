@@ -4,7 +4,7 @@ import { fetchAppointments } from "./appointmentsAPI";
 
 // A mock function to mimic making an async request for data
 export const dummyAppointments = [
-  { id: 1, customerId: 1, studioId: 1, specialistId: 1 },
+  { id: 1, customerId: 1, businessId: 1, specialistId: 1 },
 ];
 
 export type Appointment = (typeof dummyAppointments)[0];

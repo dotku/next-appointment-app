@@ -10,9 +10,9 @@ const CheckIcon = () => (
   </svg>
 );
 
-const CheckListItem = ({ children }) => (
+const CheckListItem = ({ children, ifCancel = false }) => (
   <li className="flex items-center">
-    <CheckIcon />
+    <span className="block-inline pe-1">{ifCancel ? "❌" : "✅"}</span>
     {children}
   </li>
 );
@@ -20,10 +20,18 @@ const CheckListItem = ({ children }) => (
 export default function ReleaseLog() {
   return (
     <>
-      <h2 className="text-2xl mt-4 mb-2">Release 😎</h2>
+      <h2 className="text-2xl mt-4 mb-2">Release Log 😎</h2>
+      <h3>June, 2024</h3>
+      <ol className="list-decimal list-inside">
+        <CheckListItem>Redux for next.js</CheckListItem>
+        <CheckListItem>Use supabase auth</CheckListItem>
+        <CheckListItem>Created delicated page for Admin</CheckListItem>
+        <CheckListItem>Dark theme for Admin</CheckListItem>
+      </ol>
+      <h3 className="mt-4">May, 2024</h3>
       <ol className="list-decimal list-inside">
         <CheckListItem>Create customer</CheckListItem>
-        <CheckListItem>Create studio</CheckListItem>
+        <CheckListItem>Create business</CheckListItem>
         <CheckListItem>Create specialist</CheckListItem>
         <CheckListItem>Create appointment</CheckListItem>
         <CheckListItem>View appointment</CheckListItem>
@@ -34,9 +42,9 @@ export default function ReleaseLog() {
       <h3 className="text-xl mb-2">FAQs 🤔️</h3>
       <ol className="list-decimal list-inside">
         <li>
-          Can studio has their own seperate system that won't share with
-          platform? Should a studio owner has multiple studios and or one studio
-          has multiple studio owners?
+          Can business has their own seperate system that won't share with
+          platform? Should a business owner has multiple businesses and or one
+          business has multiple business owners?
           <div className="m-4">
             <p className="text-gray-400">
               We are focusing on consumer market at this moment.
@@ -44,12 +52,12 @@ export default function ReleaseLog() {
           </div>
         </li>
         <li>
-          Can a specialist manage their schedule in the Studio? Should a studio
-          manager approval their schedule update?
+          Can a specialist manage their schedule in the Studio? Should a
+          business manager approval their schedule update?
           <div className="m-4">
             <p className="text-gray-400">
               Yes, a specialist can managee the schedule and so does the
-              customer, but we don't have studio manager feature yet.
+              customer, but we don't have business manager feature yet.
             </p>
           </div>
         </li>
@@ -57,7 +65,7 @@ export default function ReleaseLog() {
       <hr className="my-4" />
       <h3 className="text-xl mb-2">GTD 🏷️</h3>
       <ol className="list-decimal list-inside">
-        <li>Redux for next.js</li>
+        <li>Multiple profiles management</li>
         <li>
           Auth system to manage the role and permissions: Supabase Auth with
           [super, specialist, customers]
