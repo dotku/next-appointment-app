@@ -20,6 +20,7 @@ function AppNavbar({ slug, theme = "light" }) {
 
   return mounted ? (
     <Navbar
+      maxWidth="2xl"
       className={classNames({
         "dark text-foreground bg-background": theme === "dark",
       })}
