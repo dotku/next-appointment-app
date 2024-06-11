@@ -1,0 +1,10 @@
+{
+  "businesses": [
+    { "id": 1, "name": "Studio One" },
+    { "id": 2, "name": "Studio Two" }
+  ],
+  "services": [
+    { "id": 1, "name": "Service One", "businessId": 1 },
+    { "id": 2, "name": "Service Two", "businessId": 2 }
+  ]
+}

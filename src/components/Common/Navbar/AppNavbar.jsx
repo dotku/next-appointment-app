@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import {
   Navbar,
   NavbarBrand,
@@ -9,42 +8,23 @@ import {
   NavbarItem,
 } from "@nextui-org/react";
 import Link from "next/link";
-import styled from "styled-components";
-import supabase from "../../../services/supabase";
 import ProfileDropdown from "./ProfileDropdown";
+import classNames from "classnames";
 
-function AppNavbar({ slug }) {
-  const [session, setSession] = useState(null);
+function AppNavbar({ slug, theme = "light" }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Check current session
-    const getSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setSession(session);
-    };
-
-    getSession();
-
-    // Listen for changes in the authentication state
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
     setMounted(true);
-
-    // Cleanup subscription on unmount
-    return () => {
-      subscription?.unsubscribe();
-    };
   }, []);
 
   return mounted ? (
-    <Navbar maxWidth="2xl">
+    <Navbar
+      maxWidth="2xl"
+      className={classNames({
+        "dark text-foreground bg-background": theme === "dark",
+      })}
+    >
       <NavbarBrand>
         <Link className="font-bold text-inherit" href="/">
           AptApp

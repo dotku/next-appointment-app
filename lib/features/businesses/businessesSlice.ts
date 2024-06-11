@@ -1,39 +1,42 @@
 import { createAppSlice } from "@/lib/createAppSlice";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { fetchCompanies } from "./companiesAPI";
+import { fetchCompanies } from "./businessesAPI";
 
 // A mock function to mimic making an async request for data
-export const dummyCompanies = [
-  { id: 1, customerId: 1, studioId: 1, specialistId: 1 },
+export const dummyBusinesses = [
+  { id: 1, name: "Studio One", city: "San Francisco" },
+  { id: 2, name: "Studio Two", city: "San Jose" },
 ];
 
-export type Company = (typeof dummyCompanies)[0];
+export type Business = (typeof dummyBusinesses)[0];
 
 export interface CompaniesSliceState {
-  value: Company[];
+  value: Business[];
   status: "idle" | "loading" | "failed";
 }
 
 const initialState = {
-  value: dummyCompanies,
+  value: dummyBusinesses,
   status: "idle",
 };
 
 // If you are not using async thunks you can use the standalone `createSlice`.
-export const appointmentsSlice = createAppSlice({
-  name: "appointments",
+export const businessesSlice = createAppSlice({
+  name: "busineses",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: (creator) => ({
-    createCompany: creator.reducer((state, action: PayloadAction<Company>) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value.unshift(action.payload);
-    }),
-    removeCompany: creator.reducer(
+    createBusiness: creator.reducer(
+      (state, action: PayloadAction<Business>) => {
+        // Redux Toolkit allows us to write "mutating" logic in reducers. It
+        // doesn't actually mutate the state because it uses the Immer library,
+        // which detects changes to a "draft state" and produces a brand new
+        // immutable state based off those changes
+        state.value.unshift(action.payload);
+      }
+    ),
+    removeBusiness: creator.reducer(
       (state, action: PayloadAction<{ id: number }>) => {
         state.value = state.value.filter(
           (item) => item.id === action.payload.id
@@ -42,7 +45,7 @@ export const appointmentsSlice = createAppSlice({
     ),
     // Use the `PayloadAction` type to declare the contents of `action.payload`
     updateCompanies: creator.reducer(
-      (state, action: PayloadAction<Company>) => {
+      (state, action: PayloadAction<Business>) => {
         const updatedCompanies = state.value.map((user) =>
           user.id === action.payload.id ? action.payload : user
         );
@@ -54,8 +57,8 @@ export const appointmentsSlice = createAppSlice({
     // will call the thunk with the `dispatch` function as the first argument. Async
     // code can then be executed and other actions can be dispatched. Thunks are
     // typically used to make async requests.
-    updatedCompaniesAsync: creator.asyncThunk(
-      async (appointments: Company[]) => {
+    updateBuinessesAsync: creator.asyncThunk(
+      async (appointments: Business[]) => {
         const response = await fetchCompanies(appointments);
         // The value we return becomes the `fulfilled` action payload
         console.log("updatedCompaniesAsync", response);
@@ -65,7 +68,7 @@ export const appointmentsSlice = createAppSlice({
         pending: (state) => {
           state.status = "loading";
         },
-        fulfilled: (state, action: PayloadAction<Company[]>) => {
+        fulfilled: (state, action: PayloadAction<Business[]>) => {
           state.status = "idle";
           state.value = action.payload;
         },
@@ -78,15 +81,15 @@ export const appointmentsSlice = createAppSlice({
   // You can define your selectors here. These selectors receive the slice
   // state as their first argument.
   selectors: {
-    selectCompanies: (state) => state.value,
-    selectCompaniesStatus: (state) => state.status,
+    selectBusinesses: (state) => state.value,
+    selectBusinessesStatus: (state) => state.status,
   },
 });
 
 // Action creators are generated for each case reducer function.
-export const { createCompany, removeCompany, updatedCompaniesAsync } =
-  appointmentsSlice.actions;
+export const { createBusiness, removeBusiness, updateBuinessesAsync } =
+  businessesSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectCompanies, selectCompaniesStatus } =
-  appointmentsSlice.selectors;
+export const { selectBusinesses, selectBusinessesStatus } =
+  businessesSlice.selectors;
