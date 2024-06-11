@@ -221,10 +221,10 @@ const BookingPage = () => {
 
   return (
     <div className="grid lg:grid-cols-3 gap-4 grid-xs-cols-1">
-      <div>
+      <div className="">
         <ReleaseLog />
       </div>
-      <div>
+      <div className="">
         <h2 className="text-2xl">Book a Specialist</h2>
         <p className="text-gray-400">
           This section would be used for a customer to book specialists
@@ -356,7 +356,7 @@ const BookingPage = () => {
           Book
         </button>
       </div>
-      <div className="col-span-1">
+      <div className="">
         <h2 className="text-2xl mb-2">Dashboard</h2>
         <StateViewer />
       </div>

@@ -159,7 +159,7 @@ export default function Admin() {
           >
             Add
           </button>
-          <pre className="text-gray-400">
+          <pre className="text-gray-400" style={{ whiteSpace: "pre-wrap" }}>
             {JSON.stringify(users.value, null, 2)}
           </pre>
         </div>

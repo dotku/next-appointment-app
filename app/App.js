@@ -13,14 +13,14 @@ function App() {
     process.env.REACT_APP_PUBLIC_SUPABASE_ANON_KEY
   );
   return (
-    <div>
+    <>
       <AppNavbar slug="home" />
       <div className="container mx-auto px-6">
         <Header />
         <hr className="my-4" />
         <BookingPage />
       </div>
-    </div>
+    </>
   );
 }
 
