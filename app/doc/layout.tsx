@@ -5,8 +5,11 @@ export default function layout({ children }) {
   return (
     <>
       <AppNavbar slug="doc" />
-      <DocHeader />
-      <div className="container mx-auto px-6">{children}</div>
+
+      <div className="container mx-auto px-6">
+        <DocHeader />
+        {children}
+      </div>
     </>
   );
 }
