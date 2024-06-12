@@ -1,18 +1,34 @@
 import React from "react";
-import {days} from "./Calendar";
-import {Card, CardHeader, CardBody, CardFooter, Avatar, Button} from "@nextui-org/react";
+import { days } from "./Calendar";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Avatar,
+  Button,
+} from "@nextui-org/react";
 
-export default function ProfileCard({profile}) {
+export default function ProfileCard({ profile }) {
   const [isFollowed, setIsFollowed] = React.useState(false);
 
   return (
     <Card className="w-full mb-4">
       <CardHeader className="justify-between">
         <div className="flex gap-5">
-          <Avatar isBordered radius="full" size="md" src={`https://i.pravatar.cc/250?u=${profile.name}`} />
+          <Avatar
+            isBordered
+            radius="full"
+            size="md"
+            src={`https://avatar.iran.liara.run/public/girl?username=${profile.name}`}
+          />
           <div className="flex flex-col gap-1 items-start justify-center">
-            <h4 className="text-small font-semibold leading-none text-default-600">{profile.name}</h4>
-            <h5 className="text-small tracking-tight text-default-400">@{profile.name}</h5>
+            <h4 className="text-small font-semibold leading-none text-default-600">
+              {profile.name}
+            </h4>
+            <h5 className="text-small tracking-tight text-default-400">
+              @{profile.name}
+            </h5>
           </div>
         </div>
         {/* <Button
@@ -27,9 +43,7 @@ export default function ProfileCard({profile}) {
         </Button> */}
       </CardHeader>
       <CardBody className="px-3 py-0 text-small text-default-400">
-        <p>
-          {profile.intro}
-        </p>
+        <p>{profile.intro}</p>
       </CardBody>
       <CardFooter className="gap-3">
         {/* <div className="flex gap-1">
@@ -41,9 +55,17 @@ export default function ProfileCard({profile}) {
           <p className="text-default-400 text-small">Followers</p>
         </div> */}
         <div className="flex gap-1 items-center">
-          <p className="font-semibold text-default-400 text-small">Availibilities: </p>
+          <p className="font-semibold text-default-400 text-small">
+            Availibilities:{" "}
+          </p>
           <div>
-            <p className=" text-default-400 text-small">{profile.availibilities.map(a => <Button size="sm" variant="bordered" className="me-1" key={a}>{days[a]}</Button>)}</p>
+            <p className=" text-default-400 text-small">
+              {profile.availibilities.map((a) => (
+                <Button size="sm" variant="bordered" className="me-1" key={a}>
+                  {days[a]}
+                </Button>
+              ))}
+            </p>
           </div>
         </div>
       </CardFooter>
