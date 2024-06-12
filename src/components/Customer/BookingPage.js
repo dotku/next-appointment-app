@@ -9,6 +9,12 @@ import { useAppDispatch } from "@/store/store";
 import { createUser, updatedUsersAsync } from "@/lib/features/users/usersSlice";
 import StateViewer from "@/src/components/Admin/StateViewer";
 import { selectBusinesses } from "@/lib/features/businesses/businessesSlice";
+import {
+  selectAppointments,
+  selectAppointmentsStatus,
+  updatedAppointmentsAsync,
+} from "@/lib/features/appointments/appointmentsSlice";
+import classNames from "classnames";
 
 const dummySpecialists = [
   {
@@ -47,9 +53,10 @@ const dummyAppointments = [
 const BookingPage = () => {
   const users = useAppSelector((state) => state.users);
   const businesses = useAppSelector(selectBusinesses);
+  const appointmentsStatus = useAppSelector(selectAppointmentsStatus);
+  const appointments = useAppSelector(selectAppointments);
   const dispatch = useAppDispatch();
   const [customers, setCustomers] = useState(users.value);
-  const [appointments, setAppointments] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedStudio, setSelectedStudio] = useState(null);
   const [selectedFilterDay, setSelectedFilterDay] = useState();
@@ -96,7 +103,6 @@ const BookingPage = () => {
     // Load businesses (dummy data)
     // setCustomers(users);
     setSpecialists(dummySpecialists);
-    setAppointments(dummyAppointments);
   }, []);
 
   const handleStudioSpecialistAdd = () => {
@@ -188,16 +194,18 @@ const BookingPage = () => {
       return;
     }
     // Here you can add logic to handle the booking
-    setAppointments([
-      {
-        id: appointments[0].id + 1,
-        customerId: selectedCustomer,
-        specialistId: selectedSpecialist,
-        date: bookingDate,
-        time: bookingTime,
-      },
-      ...appointments,
-    ]);
+    dispatch(
+      updatedAppointmentsAsync([
+        {
+          id: appointments[0].id + 1,
+          customerId: selectedCustomer,
+          specialistId: selectedSpecialist,
+          date: bookingDate,
+          time: bookingTime,
+        },
+        ...appointments,
+      ])
+    );
     // Clear the form
     // setSelectedCustomer(null);
     // setSelectedStudio(null);
@@ -346,6 +354,7 @@ const BookingPage = () => {
         <button
           className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
           onClick={handleBooking}
+          disabled={appointmentsStatus === "loading"}
         >
           Book
         </button>

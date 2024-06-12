@@ -3,8 +3,38 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { fetchSpecialists } from "./specialistsAPI";
 
 // A mock function to mimic making an async request for data
+export const dummyAppointments = [
+  { id: 1, customerId: 1, businessId: 1, specialistId: 1 },
+];
+
 export const dummySpecialists = [
-  { id: 1, customerId: 1, studioId: 1, specialistId: 1 },
+  {
+    id: 1,
+    name: "Specialist One",
+    intro:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    userId: 1,
+    businessId: 1,
+    availibilities: [4, 6],
+  },
+  {
+    id: 2,
+    name: "Specialist Two",
+    intro:
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    userId: 2,
+    businessId: 1,
+    availibilities: [2, 3],
+  },
+  {
+    id: 3,
+    intro:
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
+    name: "Specialist Three",
+    userId: 3,
+    businessId: 2,
+    availibilities: [0, 1, 2],
+  },
 ];
 
 export type Specialist = (typeof dummySpecialists)[0];
@@ -16,6 +46,8 @@ export interface SpecialistsSliceState {
 
 const initialState = {
   value: dummySpecialists,
+  search: "",
+  filters: {},
   status: "idle",
 };
 
@@ -41,6 +73,9 @@ export const appointmentsSlice = createAppSlice({
           (item) => item.id === action.payload.id
         );
       }
+    ),
+    updateFilters: creator.reducer(
+      (state, action: PayloadAction<Specialist>) => {}
     ),
     // Use the `PayloadAction` type to declare the contents of `action.payload`
     updateSpecialists: creator.reducer(
