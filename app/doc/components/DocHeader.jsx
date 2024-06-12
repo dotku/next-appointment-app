@@ -1,4 +1,4 @@
-export default function HomeHeader() {
+export default function DocHeader() {
   return (
     <>
       <h1 className="text-3xl font-bold mt-4 mb-2">Appointment Booking App</h1>

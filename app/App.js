@@ -3,7 +3,6 @@
 import "./App.css";
 import BookingPage from "../src/components/Customer/BookingPage";
 import AppNavbar from "../src/components/Common/Navbar/AppNavbar";
-import Header from "../src/components/Common/Header/HomeHeader";
 
 function App() {
   console.log(
@@ -16,8 +15,6 @@ function App() {
     <>
       <AppNavbar slug="home" />
       <div className="container mx-auto px-6">
-        <Header />
-        <hr className="my-4" />
         <BookingPage />
       </div>
     </>

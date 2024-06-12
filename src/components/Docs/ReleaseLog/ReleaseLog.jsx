@@ -65,6 +65,7 @@ export default function ReleaseLog() {
       <hr className="my-4" />
       <h3 className="text-xl mb-2">GTD 🏷️</h3>
       <ol className="list-decimal list-inside">
+        <li>Search Engine</li>
         <li>Multiple profiles management</li>
         <li>
           Auth system to manage the role and permissions: Supabase Auth with

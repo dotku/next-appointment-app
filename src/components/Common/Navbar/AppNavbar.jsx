@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import {
+  Input,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -10,8 +11,9 @@ import {
 import Link from "next/link";
 import ProfileDropdown from "./ProfileDropdown";
 import classNames from "classnames";
+import SearchInput from "./SearchInput";
 
-function AppNavbar({ slug, theme = "light" }) {
+function AppNavbar({ slug, theme = "light", maxWidth = "2xl" }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -20,12 +22,12 @@ function AppNavbar({ slug, theme = "light" }) {
 
   return mounted ? (
     <Navbar
-      maxWidth="2xl"
+      maxWidth={maxWidth}
       className={classNames({
         "dark text-foreground bg-background": theme === "dark",
       })}
     >
-      <NavbarBrand>
+      <NavbarBrand className="hidden md:flex">
         <Link className="font-bold text-inherit" href="/">
           AptApp
         </Link>
@@ -52,6 +54,9 @@ function AppNavbar({ slug, theme = "light" }) {
             Doc
           </Link>
         </NavbarItem>
+      </NavbarContent>
+      <NavbarContent className="">
+        <SearchInput />
       </NavbarContent>
 
       <ProfileDropdown />

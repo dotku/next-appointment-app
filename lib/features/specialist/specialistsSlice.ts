@@ -3,8 +3,38 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { fetchSpecialists } from "./specialistsAPI";
 
 // A mock function to mimic making an async request for data
+export const dummyAppointments = [
+  { id: 1, customerId: 1, businessId: 1, specialistId: 1 },
+];
+
 export const dummySpecialists = [
-  { id: 1, customerId: 1, studioId: 1, specialistId: 1 },
+  {
+    id: 1,
+    name: "Specialist One",
+    intro:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    userId: 1,
+    businessId: 1,
+    availibilities: [4, 6],
+  },
+  {
+    id: 2,
+    name: "Specialist Two",
+    intro:
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    userId: 2,
+    businessId: 1,
+    availibilities: [2, 3],
+  },
+  {
+    id: 3,
+    intro:
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
+    name: "Specialist Three",
+    userId: 3,
+    businessId: 2,
+    availibilities: [0, 1, 2],
+  },
 ];
 
 export type Specialist = (typeof dummySpecialists)[0];
@@ -16,11 +46,14 @@ export interface SpecialistsSliceState {
 
 const initialState = {
   value: dummySpecialists,
+  filter: {
+    keywords: "",
+  },
   status: "idle",
 };
 
 // If you are not using async thunks you can use the standalone `createSlice`.
-export const appointmentsSlice = createAppSlice({
+export const specialistsSlice = createAppSlice({
   name: "specialists",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
@@ -39,6 +72,27 @@ export const appointmentsSlice = createAppSlice({
       (state, action: PayloadAction<{ id: number }>) => {
         state.value = state.value.filter(
           (item) => item.id === action.payload.id
+        );
+      }
+    ),
+    updateSpecialistsFilter: creator.reducer(
+      (state, action: PayloadAction<{ keywords: string }>) => {
+        console.log("updateSpecialistsFilter");
+        const newFilter = {
+          ...state.filter,
+          ...action.payload,
+        };
+
+        state.filter = newFilter;
+        console.log("state.value", state.value);
+        // keywords search
+        // @todo could use AI for suggestion
+        state.value = dummySpecialists.filter(
+          (item) =>
+            item.name
+              .toLowerCase()
+              .includes(newFilter.keywords.toLowerCase()) ||
+            item.intro.toLowerCase().includes(newFilter.keywords.toLowerCase())
         );
       }
     ),
@@ -86,9 +140,13 @@ export const appointmentsSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function.
-export const { createSpecialist, removeSpecialist, updatedSpecialistsAsync } =
-  appointmentsSlice.actions;
+export const {
+  createSpecialist,
+  removeSpecialist,
+  updatedSpecialistsAsync,
+  updateSpecialistsFilter,
+} = specialistsSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
 export const { selectSpecialists, selectSpecialistsStatus } =
-  appointmentsSlice.selectors;
+  specialistsSlice.selectors;
