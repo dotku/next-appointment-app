@@ -50,7 +50,7 @@ export default function ProfileDropdown() {
   };
 
   return (
-    <NavbarContent as="div" justify="end">
+    <NavbarContent as="div" justify="end" style={{ flexGrow: 0 }}>
       <Dropdown placement="bottom-end">
         <DropdownTrigger>
           <CustomAvatar>

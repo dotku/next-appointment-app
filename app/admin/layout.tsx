@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <AppNavbar slug="admin" theme="dark" />
+      <AppNavbar slug="admin" theme="dark" maxWidth="full" />
       <div className="px-6">{children}</div>
     </>
   );

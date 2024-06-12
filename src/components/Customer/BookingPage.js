@@ -1,17 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import ReleaseLog from "../Docs/ReleaseLog/ReleaseLog";
 import ProfileCard from "../Elements/ProfileCard";
 import { days } from "../Elements/Calendar";
 import supabase from "src/services/supabase";
 import { useAppSelector } from "@/lib/hooks";
 import { useAppDispatch } from "@/store/store";
 import { createUser, updatedUsersAsync } from "@/lib/features/users/usersSlice";
-import { Spinner } from "@nextui-org/react";
 import StateViewer from "@/src/components/Admin/StateViewer";
 import { selectBusinesses } from "@/lib/features/businesses/businessesSlice";
-import Admin from "../Admin";
 
 const dummySpecialists = [
   {
@@ -220,17 +217,69 @@ const BookingPage = () => {
   };
 
   return (
-    <div className="grid lg:grid-cols-3 gap-4 grid-xs-cols-1">
-      <div className="">
-        <ReleaseLog />
+    <div className="grid lg:grid-cols-4 gap-4 grid-xs-cols-1">
+      <div className="col-span-1">
+        <h2 className="text-2xl">Filters</h2>
+        <div className="text-gray-700">
+          Filtered by Specialist's Availibilities
+        </div>
+        <label className="block mt-4">
+          <label className="block">
+            <span className="text-gray-700">Select Date</span>
+            <input
+              type="date"
+              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              value={bookingDate}
+              onChange={(e) => setBookingDate(e.target.value)}
+            />
+          </label>
+          <label className="block mt-4">
+            <span className="text-gray-700">Select Date</span>
+            <input
+              type="time"
+              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              value={bookingTime}
+              onChange={(e) => setBookingTime(e.target.value)}
+            />
+          </label>
+          <select
+            className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            onChange={(e) =>
+              handleFilterSpecilistAvailibilitiesChange(e.target.value)
+            }
+            value={selectedFilterDay || ""}
+          >
+            <option value="">Select</option>
+            {days.map((d, idx) => (
+              <option key={d} value={idx}>
+                {d}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="block mt-4">
+          <span className="text-gray-700">Filtered by Studio Location</span>
+          <select
+            className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            onChange={(e) => handleStudioChange(e.target.value)}
+            value={selectedStudio || ""}
+          >
+            <option value="">Select</option>
+            {businesses.map((business) => (
+              <option key={business.id} value={business.id}>
+                {business.name}, {business.city}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
-      <div className="">
+      <div className="col-span-2">
         <h2 className="text-2xl">Book a Specialist</h2>
         <p className="text-gray-400">
           This section would be used for a customer to book specialists
         </p>
         <div className="grid grid-cols-1 gap-6">
-          <label className="block">
+          {/* <label className="block">
             <span className="text-gray-700">Your identity</span>
             <select
               className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -245,45 +294,8 @@ const BookingPage = () => {
               ))}
             </select>
           </label>
-          <hr />
-          <label className="block">
-            <div className="text-gray-700">
-              Filtered by Specialist's Availibilities
-            </div>
-            <div className="text-gray-400">
-              Product should use multi selector, use single selector here for
-              quick demo purpose.
-            </div>
-            <select
-              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              onChange={(e) =>
-                handleFilterSpecilistAvailibilitiesChange(e.target.value)
-              }
-              value={selectedFilterDay || ""}
-            >
-              <option value="">Select</option>
-              {days.map((d, idx) => (
-                <option key={d} value={idx}>
-                  {d}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="block">
-            <span className="text-gray-700">Filtered by Studio Location</span>
-            <select
-              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              onChange={(e) => handleStudioChange(e.target.value)}
-              value={selectedStudio || ""}
-            >
-              <option value="">Select</option>
-              {businesses.map((business) => (
-                <option key={business.id} value={business.id}>
-                  {business.name}, {business.city}
-                </option>
-              ))}
-            </select>
-          </label>
+          <hr /> */}
+
           <label className="block">
             <span className="text-gray-700">Select Specialist</span>
             <select
@@ -330,33 +342,15 @@ const BookingPage = () => {
                 </tbody>
               </table> */}
           </div>
-          <label className="block">
-            <span className="text-gray-700">Select Date</span>
-            <input
-              type="date"
-              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              value={bookingDate}
-              onChange={(e) => setBookingDate(e.target.value)}
-            />
-          </label>
-          <label className="block">
-            <span className="text-gray-700">Select Date</span>
-            <input
-              type="time"
-              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              value={bookingTime}
-              onChange={(e) => setBookingTime(e.target.value)}
-            />
-          </label>
         </div>
         <button
-          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 my-3"
+          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
           onClick={handleBooking}
         >
           Book
         </button>
       </div>
-      <div className="">
+      <div>
         <h2 className="text-2xl mb-2">Dashboard</h2>
         <StateViewer />
       </div>

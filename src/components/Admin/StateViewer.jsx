@@ -11,6 +11,10 @@ export default function StateViewer() {
   return (
     <>
       <h2 className="text-2xl mb-2">Appointment Database Viewer</h2>
+      <h3 className="text-xl">Appointments</h3>
+      <pre className="text-gray-400" style={{ whiteSpace: "pre-wrap" }}>
+        {JSON.stringify(appointments, null, 2)}
+      </pre>
       <h3 className="text-xl">Users</h3>
       <pre className="text-gray-400" style={{ whiteSpace: "pre-wrap" }}>
         {JSON.stringify(users, null, 2)}
@@ -18,10 +22,6 @@ export default function StateViewer() {
       <h3 className="text-xl">Busineeses</h3>
       <pre className="text-gray-400" style={{ whiteSpace: "pre-wrap" }}>
         {JSON.stringify(businesses, null, 2)}
-      </pre>
-      <h3 className="text-xl">Appointments</h3>
-      <pre className="text-gray-400" style={{ whiteSpace: "pre-wrap" }}>
-        {JSON.stringify(appointments, null, 2)}
       </pre>
     </>
   );
