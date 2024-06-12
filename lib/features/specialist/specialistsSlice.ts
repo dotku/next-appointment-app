@@ -46,13 +46,14 @@ export interface SpecialistsSliceState {
 
 const initialState = {
   value: dummySpecialists,
-  search: "",
-  filters: {},
+  filter: {
+    keywords: "",
+  },
   status: "idle",
 };
 
 // If you are not using async thunks you can use the standalone `createSlice`.
-export const appointmentsSlice = createAppSlice({
+export const specialistsSlice = createAppSlice({
   name: "specialists",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
@@ -74,8 +75,26 @@ export const appointmentsSlice = createAppSlice({
         );
       }
     ),
-    updateFilters: creator.reducer(
-      (state, action: PayloadAction<Specialist>) => {}
+    updateSpecialistsFilter: creator.reducer(
+      (state, action: PayloadAction<{ keywords: string }>) => {
+        console.log("updateSpecialistsFilter");
+        const newFilter = {
+          ...state.filter,
+          ...action.payload,
+        };
+
+        state.filter = newFilter;
+        console.log("state.value", state.value);
+        // keywords search
+        // @todo could use AI for suggestion
+        state.value = dummySpecialists.filter(
+          (item) =>
+            item.name
+              .toLowerCase()
+              .includes(newFilter.keywords.toLowerCase()) ||
+            item.intro.toLowerCase().includes(newFilter.keywords.toLowerCase())
+        );
+      }
     ),
     // Use the `PayloadAction` type to declare the contents of `action.payload`
     updateSpecialists: creator.reducer(
@@ -121,9 +140,13 @@ export const appointmentsSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function.
-export const { createSpecialist, removeSpecialist, updatedSpecialistsAsync } =
-  appointmentsSlice.actions;
+export const {
+  createSpecialist,
+  removeSpecialist,
+  updatedSpecialistsAsync,
+  updateSpecialistsFilter,
+} = specialistsSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
 export const { selectSpecialists, selectSpecialistsStatus } =
-  appointmentsSlice.selectors;
+  specialistsSlice.selectors;

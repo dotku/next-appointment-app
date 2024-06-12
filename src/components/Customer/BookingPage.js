@@ -14,53 +14,23 @@ import {
   selectAppointmentsStatus,
   updatedAppointmentsAsync,
 } from "@/lib/features/appointments/appointmentsSlice";
-import classNames from "classnames";
-
-const dummySpecialists = [
-  {
-    id: 1,
-    name: "Specialist One",
-    intro:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    userId: 1,
-    businessId: 1,
-    availibilities: [4, 6],
-  },
-  {
-    id: 2,
-    name: "Specialist Two",
-    intro:
-      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    userId: 2,
-    businessId: 1,
-    availibilities: [2, 3],
-  },
-  {
-    id: 3,
-    intro:
-      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
-    name: "Specialist Three",
-    userId: 3,
-    businessId: 2,
-    availibilities: [0, 1, 2],
-  },
-];
-
-const dummyAppointments = [
-  { id: 1, customerId: 1, businessId: 1, specialistId: 1 },
-];
+import {
+  dummySpecialists,
+  selectSpecialists,
+  updatedSpecialistsAsync,
+} from "@/lib/features/specialist/specialistsSlice";
 
 const BookingPage = () => {
+  const dispatch = useAppDispatch();
   const users = useAppSelector((state) => state.users);
   const businesses = useAppSelector(selectBusinesses);
   const appointmentsStatus = useAppSelector(selectAppointmentsStatus);
   const appointments = useAppSelector(selectAppointments);
-  const dispatch = useAppDispatch();
+  const specialists = useAppSelector(selectSpecialists);
   const [customers, setCustomers] = useState(users.value);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedStudio, setSelectedStudio] = useState(null);
   const [selectedFilterDay, setSelectedFilterDay] = useState();
-  const [specialists, setSpecialists] = useState([]);
   const [selectedManagerSpecialistStudio, setSelectedManagerSpecialistStudio] =
     useState("");
   const [selectedManagerSpecialistUser, setSelectedManagerSpecialistUser] =
@@ -102,8 +72,11 @@ const BookingPage = () => {
     getSession();
     // Load businesses (dummy data)
     // setCustomers(users);
-    setSpecialists(dummySpecialists);
   }, []);
+
+  const setSpecialists = (newSpecilists) => {
+    dispatch(updatedSpecialistsAsync(newSpecilists));
+  };
 
   const handleStudioSpecialistAdd = () => {
     if (!selectedManagerSpecialistUser) {
@@ -120,7 +93,6 @@ const BookingPage = () => {
       alert("need user name");
       return;
     }
-
     setSpecialists([
       ...specialists,
       {
