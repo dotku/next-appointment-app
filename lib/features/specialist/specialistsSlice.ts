@@ -110,11 +110,11 @@ export const specialistsSlice = createAppSlice({
     // will call the thunk with the `dispatch` function as the first argument. Async
     // code can then be executed and other actions can be dispatched. Thunks are
     // typically used to make async requests.
-    updatedSpecialistsAsync: creator.asyncThunk(
+    updateSpecialistsAsync: creator.asyncThunk(
       async (appointments: Specialist[]) => {
         const response = await fetchSpecialists(appointments);
         // The value we return becomes the `fulfilled` action payload
-        console.log("updatedSpecialistsAsync", response);
+        console.log("updateSpecialistsAsync", response);
         return response.data;
       },
       {
@@ -143,7 +143,7 @@ export const specialistsSlice = createAppSlice({
 export const {
   createSpecialist,
   removeSpecialist,
-  updatedSpecialistsAsync,
+  updateSpecialistsAsync,
   updateSpecialistsFilter,
 } = specialistsSlice.actions;
 
