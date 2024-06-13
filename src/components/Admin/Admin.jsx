@@ -1,39 +1,18 @@
 import { useEffect, useState } from "react";
 import supabase from "../../services/supabase";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { createUser } from "@/lib/features/users/usersSlice";
+import {
+  createUser,
+  selectUsers,
+  selectUsersStatus,
+  updateUsersAsync,
+} from "@/lib/features/users/usersSlice";
 import { selectBusinesses } from "@/lib/features/businesses/businessesSlice";
 import BusinessesAdmin from "./BusinessesAdmin";
-
-const dummySpecialists = [
-  {
-    id: 1,
-    name: "Specialist One",
-    intro:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    userId: 1,
-    businessId: 1,
-    availibilities: [4, 6],
-  },
-  {
-    id: 2,
-    name: "Specialist Two",
-    intro:
-      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    userId: 2,
-    businessId: 1,
-    availibilities: [2, 3],
-  },
-  {
-    id: 3,
-    intro:
-      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
-    name: "Specialist Three",
-    userId: 3,
-    businessId: 2,
-    availibilities: [0, 1, 2],
-  },
-];
+import {
+  selectSpecialists,
+  updateSpecialistsAsync,
+} from "@/lib/features/specialist/specialistsSlice";
 
 const dummyAppointments = [
   { id: 1, customerId: 1, businessId: 1, specialistId: 1 },
@@ -41,9 +20,12 @@ const dummyAppointments = [
 
 export default function Admin() {
   const businesses = useAppSelector(selectBusinesses);
-  const users = useAppSelector((state) => state.users);
+  const users = useAppSelector(selectUsers);
+  const usersStatus = useAppSelector(selectUsersStatus);
+  const specialists = useAppSelector(selectSpecialists);
   const dispatch = useAppDispatch();
 
+  const [session, setSession] = useState(null);
   const [customers, setCustomers] = useState([]);
 
   const [newCustomerName, setNewCustomerName] = useState("");
@@ -51,11 +33,14 @@ export default function Admin() {
     useState("");
   const [managerSpecialistUserName, setManagerSpecialistUserName] =
     useState("");
-  const [specialists, setSpecialists] = useState([]);
   const [selectedManagerSpecialistStudio, setSelectedManagerSpecialistStudio] =
     useState("");
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [appointments, setAppointments] = useState([]);
+
+  const setSpecialists = (specialists) => {
+    dispatch(updateSpecialistsAsync(specialists));
+  };
 
   useEffect(() => {
     // Check current session
@@ -75,14 +60,21 @@ export default function Admin() {
         //   },
         // ]);
         setSelectedCustomer(user.id);
+        setSession(session);
+        dispatch(
+          updateUsersAsync(
+            users.map((u) => ({
+              ...u,
+              ownerId: user.id,
+            }))
+          )
+        );
       }
     };
 
     getSession();
     // Load businesses (dummy data)
-    setCustomers(users.value);
-
-    setSpecialists(dummySpecialists);
+    setCustomers(users);
     setAppointments(dummyAppointments);
   }, []);
 
@@ -100,8 +92,9 @@ export default function Admin() {
     // ]);
     dispatch(
       createUser({
-        id: users.value.length + 1,
+        id: users.length + 1,
         name: newCustomerName,
+        ownerId: session.user.id,
       })
     );
     setNewCustomerName("");
@@ -160,7 +153,7 @@ export default function Admin() {
             Add
           </button>
           <pre className="text-gray-400" style={{ whiteSpace: "pre-wrap" }}>
-            {JSON.stringify(users.value, null, 2)}
+            {JSON.stringify(users, null, 2)}
           </pre>
         </div>
         <div>

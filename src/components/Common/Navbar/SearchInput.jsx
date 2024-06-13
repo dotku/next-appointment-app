@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
 import { useAppDispatch } from "@/lib/hooks";

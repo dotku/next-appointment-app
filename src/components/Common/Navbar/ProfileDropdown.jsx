@@ -61,7 +61,8 @@ export default function ProfileDropdown() {
                 as="button"
                 name="Jason Hughes"
                 size="sm"
-                src={`https://api.dicebear.com/8.x/adventurer/svg?seed=${session.user.email}`}
+                src={`https://avatar.iran.liara.run/public/girl?username=${session.user.id}`}
+                // src={`https://api.dicebear.com/8.x/adventurer/svg?seed=${session.user.email}`}
               />
             ) : (
               <SignUpButton />
@@ -70,7 +71,7 @@ export default function ProfileDropdown() {
         </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" variant="flat">
           <DropdownSection showDivider>
-            <DropdownItem key="profile" className="h-14 gap-2">
+            <DropdownItem key="sign-in" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">
                 {session ? session.user.email : null}

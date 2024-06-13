@@ -6,7 +6,7 @@ import { days } from "../Elements/Calendar";
 import supabase from "src/services/supabase";
 import { useAppSelector } from "@/lib/hooks";
 import { useAppDispatch } from "@/store/store";
-import { createUser, updatedUsersAsync } from "@/lib/features/users/usersSlice";
+import { createUser, updateUsersAsync } from "@/lib/features/users/usersSlice";
 import StateViewer from "@/src/components/Admin/StateViewer";
 import { selectBusinesses } from "@/lib/features/businesses/businessesSlice";
 import {
@@ -17,7 +17,7 @@ import {
 import {
   dummySpecialists,
   selectSpecialists,
-  updatedSpecialistsAsync,
+  updateSpecialistsAsync,
 } from "@/lib/features/specialist/specialistsSlice";
 
 const BookingPage = () => {
@@ -57,7 +57,7 @@ const BookingPage = () => {
         //   { id: 3, name: "User Three" },
         !ifFound &&
           dispatch(
-            updatedUsersAsync([
+            updateUsersAsync([
               ...users.value,
               {
                 id: user.id,
@@ -75,7 +75,7 @@ const BookingPage = () => {
   }, []);
 
   const setSpecialists = (newSpecilists) => {
-    dispatch(updatedSpecialistsAsync(newSpecilists));
+    dispatch(updateSpecialistsAsync(newSpecilists));
   };
 
   const handleStudioSpecialistAdd = () => {

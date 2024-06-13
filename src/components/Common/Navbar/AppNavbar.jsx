@@ -1,8 +1,5 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
-  Input,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -13,14 +10,8 @@ import ProfileDropdown from "./ProfileDropdown";
 import classNames from "classnames";
 import SearchInput from "./SearchInput";
 
-function AppNavbar({ slug, theme = "light", maxWidth = "2xl" }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return mounted ? (
+function AppNavbar({ slug = "home", theme = "light", maxWidth = "2xl" }) {
+  return (
     <Navbar
       maxWidth={maxWidth}
       className={classNames({
@@ -61,7 +52,7 @@ function AppNavbar({ slug, theme = "light", maxWidth = "2xl" }) {
 
       <ProfileDropdown />
     </Navbar>
-  ) : null;
+  );
 }
 
 export default AppNavbar;
