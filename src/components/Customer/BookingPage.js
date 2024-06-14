@@ -172,7 +172,7 @@ const BookingPage = () => {
           id: appointments[0].id + 1,
           customerId: selectedCustomer,
           specialistId: selectedSpecialist,
-          date: bookingDate,
+          date: new Date(bookingDate),
           time: bookingTime,
         },
         ...appointments,
@@ -203,8 +203,25 @@ const BookingPage = () => {
         <div className="text-gray-700">
           Filtered by Specialist's Availibilities
         </div>
-        <label className="block mt-4">
-          <label className="block">
+        <div className="block mt-4">
+          <label className="block mt-4">
+            <span className="text-gray-700">Select Day</span>
+            <select
+              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              onChange={(e) =>
+                handleFilterSpecilistAvailibilitiesChange(e.target.value)
+              }
+              value={selectedFilterDay || ""}
+            >
+              <option value="">Select</option>
+              {days.map((d, idx) => (
+                <option key={d} value={idx}>
+                  {d}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="block mt-4">
             <span className="text-gray-700">Select Date</span>
             <input
               type="date"
@@ -214,7 +231,7 @@ const BookingPage = () => {
             />
           </label>
           <label className="block mt-4">
-            <span className="text-gray-700">Select Date</span>
+            <span className="text-gray-700">Select Time</span>
             <input
               type="time"
               className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -222,21 +239,7 @@ const BookingPage = () => {
               onChange={(e) => setBookingTime(e.target.value)}
             />
           </label>
-          <select
-            className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            onChange={(e) =>
-              handleFilterSpecilistAvailibilitiesChange(e.target.value)
-            }
-            value={selectedFilterDay || ""}
-          >
-            <option value="">Select</option>
-            {days.map((d, idx) => (
-              <option key={d} value={idx}>
-                {d}
-              </option>
-            ))}
-          </select>
-        </label>
+        </div>
         <label className="block mt-4">
           <span className="text-gray-700">Filtered by Studio Location</span>
           <select
@@ -331,10 +334,7 @@ const BookingPage = () => {
           Book
         </button>
       </div>
-      <div>
-        <h2 className="text-2xl mb-2">Dashboard</h2>
-        <StateViewer />
-      </div>
+      <StateViewer />
     </div>
   );
 };

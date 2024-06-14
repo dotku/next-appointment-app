@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
+    "@internationalized/date": "^3.5.4",
     "@nextui-org/react": "^2.3.6",
     "@reduxjs/toolkit": "^2.2.5",
     "@supabase/auth-ui-react": "^0.4.7",
