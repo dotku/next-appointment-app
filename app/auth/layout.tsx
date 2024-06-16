@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import AppNavbar from "../../src/components/Common/Navbar/AppNavbar";
 import { Link, Navbar, NavbarBrand } from "@nextui-org/react";
 
 export const metadata: Metadata = {
