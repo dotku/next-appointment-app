@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AppNavbar from "../../src/components/Common/Navbar/AppNavbar";
+import AuthClientLayout from "./AuthClientLayout";
 
 export const metadata: Metadata = {
   title: "Appointment Booking App",
@@ -7,15 +7,10 @@ export const metadata: Metadata = {
     "Appointment App is used to book appointment between customer and specialists.",
 };
 
-export default function AppointmentLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <AppNavbar slug="auth" />
-      <div className="container mx-auto px-6">{children}</div>
-    </>
-  );
+  return <AuthClientLayout>{children}</AuthClientLayout>;
 }
