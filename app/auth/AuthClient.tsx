@@ -70,7 +70,7 @@ const AuthClient = () => {
           appearance={{ theme: ThemeSupa }}
           providers={[]}
           view="sign_in"
-          redirectTo="/auth"
+          redirectTo={`${window.location.origin}/auth`}
         />
       )}
     </div>
