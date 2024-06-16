@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Link, Navbar, NavbarBrand } from "@nextui-org/react";
+import AuthClientLayout from "./AuthClientLayout";
 
 export const metadata: Metadata = {
   title: "Appointment Booking App",
@@ -7,21 +7,10 @@ export const metadata: Metadata = {
     "Appointment App is used to book appointment between customer and specialists.",
 };
 
-export default function AppointmentLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <Navbar>
-        <NavbarBrand className="flex justify-center">
-          <Link className="font-bold text-inherit" href="/">
-            AptApp
-          </Link>
-        </NavbarBrand>
-      </Navbar>
-      <div className="container mx-auto px-6">{children}</div>
-    </>
-  );
+  return <AuthClientLayout>{children}</AuthClientLayout>;
 }
