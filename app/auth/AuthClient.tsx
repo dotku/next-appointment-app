@@ -5,7 +5,6 @@ import { Session, createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { Button, Spinner } from "@nextui-org/react";
-import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 
 const supabase = createClient(

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import LayoutClient from "./AuthLayoutClient";
+import AuthClientLayout from "./AuthClientLayout";
 
 export const metadata: Metadata = {
   title: "Appointment Booking App",
@@ -7,10 +7,10 @@ export const metadata: Metadata = {
     "Appointment App is used to book appointment between customer and specialists.",
 };
 
-export default function AppointmentLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <LayoutClient>{children}</LayoutClient>;
+  return <AuthClientLayout>{children}</AuthClientLayout>;
 }
