@@ -23,6 +23,7 @@ const AuthClient = () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+
       setSession(session);
     };
 
@@ -52,7 +53,7 @@ const AuthClient = () => {
   }
 
   return (
-    <div className="w-80 mx-auto" style={{ marginTop: 40 }}>
+    <div className="w-80 mx-auto">
       {session ? (
         <div>
           <p>Welcome, {session.user.email}!</p>
@@ -65,15 +66,19 @@ const AuthClient = () => {
           </Button>
         </div>
       ) : typeof window !== "undefined" ? (
-        <Auth
-          supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
-          providers={[]}
-          view="sign_in"
-          redirectTo={`${window.location.origin}/auth`}
-        />
+        <div style={{ marginTop: "128px" }}>
+          <Auth
+            supabaseClient={supabase}
+            appearance={{ theme: ThemeSupa }}
+            providers={[]}
+            view="sign_in"
+            redirectTo={`${window.location.origin}/auth`}
+          />
+        </div>
       ) : (
-        <Spinner />
+        <div className="flex h-screen justify-center items-center">
+          <Spinner />
+        </div>
       )}
     </div>
   );

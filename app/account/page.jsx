@@ -5,22 +5,24 @@ import { Spinner } from "@nextui-org/spinner";
 import { useEffect, useState } from "react";
 
 export default function AccountPage() {
+  console.log("account page");
   const { session, error, isLoading } = useSupabaseSession();
   const [user, setUser] = useState(null);
 
-  console.log(session);
+  console.log(session, error);
 
   useEffect(() => {
     session && setUser(session.user);
   }, [session]);
 
-  if (!user)
+  if (error) return <div>Error: {error}</div>;
+
+  if (isLoading)
     return (
       <div className="flex">
         <Spinner />
       </div>
     );
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <div classNmae="container mx-auto px-6">
