@@ -1,3 +1,3 @@
-import {days} from "./ElementCalendar";
+import { days } from "./AppointmentCalendar";
 
-export {days};
+export { days };

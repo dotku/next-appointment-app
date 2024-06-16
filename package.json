@@ -3,6 +3,8 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.10.5",
+    "@internationalized/date": "^3.5.4",
     "@nextui-org/react": "^2.3.6",
     "@reduxjs/toolkit": "^2.2.5",
     "@supabase/auth-ui-react": "^0.4.7",
@@ -14,6 +16,7 @@
     "autoprefixer": "^10.4.19",
     "classnames": "^2.5.1",
     "framer-motion": "^11.2.6",
+    "graphql": "^16.8.2",
     "next": "^14.2.3",
     "postcss": "^8.4.38",
     "react": "^18.3.1",

@@ -48,6 +48,7 @@ const initialState = {
   value: dummySpecialists,
   filter: {
     keywords: "",
+    date: null,
   },
   status: "idle",
 };

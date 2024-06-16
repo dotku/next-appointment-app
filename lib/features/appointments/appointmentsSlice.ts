@@ -1,10 +1,18 @@
 import { createAppSlice } from "@/lib/createAppSlice";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { fetchAppointments } from "./appointmentsAPI";
+import { getLocalTimeZone, today } from "@internationalized/date";
 
 // A mock function to mimic making an async request for data
 export const dummyAppointments = [
-  { id: 1, customerId: 1, businessId: 1, specialistId: 1 },
+  {
+    id: 1,
+    customerId: 1,
+    businessId: 1,
+    specialistId: 1,
+    // date: today(getLocalTimeZone()).add({ days: 5 }).toString(),
+    date: today(getLocalTimeZone()).add({ days: 5 }).toDate("PST"),
+  },
 ];
 
 export type Appointment = (typeof dummyAppointments)[0];
