@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Session, createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { Button } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 
@@ -64,7 +64,7 @@ const AuthClient = () => {
             Logout
           </Button>
         </div>
-      ) : (
+      ) : typeof window !== "undefined" ? (
         <Auth
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
@@ -72,6 +72,8 @@ const AuthClient = () => {
           view="sign_in"
           redirectTo={`${window.location.origin}/auth`}
         />
+      ) : (
+        <Spinner />
       )}
     </div>
   );
