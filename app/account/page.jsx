@@ -25,6 +25,9 @@ export default function AccountPage() {
       </div>
     );
 
+  if (!user)
+    return <div>Something is wrong, please contact administratior.</div>;
+
   return (
     <div classNmae="container mx-auto px-6">
       <div className="w-96">

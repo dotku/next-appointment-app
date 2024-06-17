@@ -72,5 +72,5 @@ export default function ApplyForSpecilist({ userID, table = "profile_role" }) {
     ) : (
       <Chip>Pending</Chip>
     );
-  return <Button onClick={handleButtonClick}>Apply for Specilist 001</Button>;
+  return <Button onClick={handleButtonClick}>Apply for Specilist</Button>;
 }
