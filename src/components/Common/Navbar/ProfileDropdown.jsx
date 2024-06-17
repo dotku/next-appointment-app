@@ -71,7 +71,7 @@ export default function ProfileDropdown() {
         </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" variant="flat">
           <DropdownSection showDivider>
-            <DropdownItem key="sign-in" className="h-14 gap-2">
+            <DropdownItem key="sign-in" className="h-14 gap-2" href="/account">
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">
                 {session ? session.user.email : null}

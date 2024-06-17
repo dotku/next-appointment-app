@@ -1,5 +1,6 @@
 "use client";
 
+import Account from "@/src/components/Account/Account";
 import { useSupabaseSession } from "@/src/hooks/useSupabaseSession";
 import { Spinner } from "@nextui-org/spinner";
 import { useEffect, useState } from "react";
@@ -29,7 +30,8 @@ export default function AccountPage() {
       <div className="w-96">
         <h2 className="text-xl">Account</h2>
         <h3 className="text-xl">{user.name}</h3>
-        {session?.user.id}
+        {session.user.id}
+        <Account userID={session.user.id} />
       </div>
     </div>
   );

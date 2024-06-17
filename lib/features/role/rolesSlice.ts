@@ -1,21 +1,24 @@
 import { createAppSlice } from "@/lib/createAppSlice";
-import { fetchAccount } from "./accountAPI";
+import { fetchRoles } from "./rolesAPI";
 
-export interface Account {
+export const dummyUsers = [
+  { id: 1, name: "Nail Specialist" },
+  { id: 2, name: "Hairdresser" },
+  { id: 3, name: "Ear Piercer" },
+];
+
+export interface Role {
   id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  contact?: string;
+  name: string;
   roles: string[];
 }
 
-export interface AccountSliceState {
-  value?: Account;
+export interface RoleSliceState {
+  value?: Role;
   status: "idle" | "loading" | "failed";
 }
 
-const initialState: AccountSliceState = {
+const initialState: RoleSliceState = {
   status: "idle",
 };
 
@@ -32,8 +35,8 @@ export const accountSlice = createAppSlice({
     // code can then be executed and other actions can be dispatched. Thunks are
     // typically used to make async requests.
     updateAccountAsync: create.asyncThunk(
-      async (account: Account) => {
-        const response = await fetchAccount(account);
+      async (roles: Role[]) => {
+        const response = await fetchRoles(roles);
         // The value we return becomes the `fulfilled` action payload
         return response.data;
       },
@@ -54,7 +57,7 @@ export const accountSlice = createAppSlice({
   // You can define your selectors here. These selectors receive the slice
   // state as their first argument.
   selectors: {
-    selectAccount: (state) => state.value,
+    selectRoles: (state) => state.value,
     selectStatus: (state) => state.status,
   },
 });
@@ -63,4 +66,4 @@ export const accountSlice = createAppSlice({
 export const { updateAccountAsync } = accountSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectAccount, selectStatus } = accountSlice.selectors;
+export const { selectRoles, selectStatus } = accountSlice.selectors;
