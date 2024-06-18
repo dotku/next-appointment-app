@@ -12,6 +12,7 @@
     "@apollo/client": "^3.10.5",
     "@internationalized/date": "^3.5.4",
     "@nextui-org/react": "^2.3.6",
+    "@prisma/client": "^5.15.1",
     "@reduxjs/toolkit": "^2.2.5",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
@@ -36,6 +37,8 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@snaplet/copycat": "^5.0.0",
+    "@snaplet/seed": "^0.97.20",
     "@tailwindcss/forms": "^0.5.7",
     "@types/node": "20.14.5",
     "@types/react": "18.3.3",
