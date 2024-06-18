@@ -3,22 +3,25 @@
 import React, { useState, useEffect } from "react";
 import ProfileCard from "../Elements/ProfileCard";
 import { days } from "../Elements/Calendar";
-import supabase from "src/services/supabase";
-import { useAppSelector } from "@/lib/hooks";
+import supabase from "@/src/services/supabase";
+import { useAppSelector } from "@/src/lib/hooks";
 import { useAppDispatch } from "@/src/store/store";
-import { createUser, updateUsersAsync } from "@/lib/features/users/usersSlice";
+import {
+  createUser,
+  updateUsersAsync,
+} from "@/src/lib/features/users/usersSlice";
 import StateViewer from "@/src/components/Admin/StateViewer";
-import { selectBusinesses } from "@/lib/features/businesses/businessesSlice";
+import { selectBusinesses } from "@/src/lib/features/businesses/businessesSlice";
 import {
   selectAppointments,
   selectAppointmentsStatus,
   updatedAppointmentsAsync,
-} from "@/lib/features/appointments/appointmentsSlice";
+} from "@/src/lib/features/appointments/appointmentsSlice";
 import {
   dummySpecialists,
   selectSpecialists,
   updateSpecialistsAsync,
-} from "@/lib/features/specialist/specialistsSlice";
+} from "@/src/lib/features/specialist/specialistsSlice";
 
 const BookingPage = () => {
   const dispatch = useAppDispatch();

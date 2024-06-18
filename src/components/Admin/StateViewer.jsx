@@ -1,7 +1,7 @@
-import { useAppSelector } from "@/lib/hooks";
-import { selectUsers } from "@/lib/features/users/usersSlice";
-import { selectAppointments } from "@/lib/features/appointments/appointmentsSlice";
-import { selectBusinesses } from "@/lib/features/businesses/businessesSlice";
+import { useAppSelector } from "@/src/lib/hooks";
+import { selectUsers } from "@/src/lib/features/users/usersSlice";
+import { selectAppointments } from "@/src/lib/features/appointments/appointmentsSlice";
+import { selectBusinesses } from "@/src/lib/features/businesses/businessesSlice";
 import AppointmentCalendar from "../Elements/Calendar/AppointmentCalendar";
 
 export default function StateViewer() {

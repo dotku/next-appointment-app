@@ -13,7 +13,7 @@ import classNames from "classnames";
 import SearchInput from "./SearchInput";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
-import i18next from "@/lib/i18n/i18n";
+import i18next from "@/src/lib/i18n/i18n";
 
 function AppNavbar({ slug = "home", theme = "light", maxWidth = "2xl" }) {
   const { t } = useTranslation();

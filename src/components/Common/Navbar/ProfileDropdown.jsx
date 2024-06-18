@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import supabase from "src/services/supabase";
+import supabase from "@/src/services/supabase";
 import styled from "styled-components";
 import SignUpButton from "../../../app/components/Auth/SignUpButton";
 

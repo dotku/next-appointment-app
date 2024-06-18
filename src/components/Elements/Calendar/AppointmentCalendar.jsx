@@ -1,8 +1,8 @@
 import { Calendar } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
 import styled from "styled-components";
-import { useAppSelector } from "@/lib/hooks";
-import { selectAppointments } from "@/lib/features/appointments/appointmentsSlice";
+import { useAppSelector } from "@/src/lib/hooks";
+import { selectAppointments } from "@/src/lib/features/appointments/appointmentsSlice";
 
 export const days = [
   "Sunday",
