@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect } from "react";
 import {
   Navbar,
@@ -34,7 +36,6 @@ function AppNavbar({ slug = "home", theme = "light", maxWidth = "2xl" }) {
           AptApp
         </Link>
       </NavbarBrand>
-
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem isActive={["home", "/"].includes(slug)}>
           <Link color="foreground" href="/">
@@ -60,7 +61,6 @@ function AppNavbar({ slug = "home", theme = "light", maxWidth = "2xl" }) {
       <NavbarContent className="">
         <SearchInput />
       </NavbarContent>
-
       <ProfileDropdown />
     </Navbar>
   );

@@ -1,8 +1,8 @@
 import {
   selectBusinesses,
   updateBuinessesAsync,
-} from "@/lib/features/businesses/businessesSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+} from "@/src/lib/features/businesses/businessesSlice";
+import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import { useState } from "react";
 
 export default function BusinessesAdmin() {

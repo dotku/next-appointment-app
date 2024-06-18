@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import supabase from "../../services/supabase";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import {
   createUser,
   selectUsers,
   selectUsersStatus,
   updateUsersAsync,
-} from "@/lib/features/users/usersSlice";
-import { selectBusinesses } from "@/lib/features/businesses/businessesSlice";
+} from "@/src/lib/features/users/usersSlice";
+import { selectBusinesses } from "@/src/lib/features/businesses/businessesSlice";
 import BusinessesAdmin from "./BusinessesAdmin";
 import {
   selectSpecialists,
   updateSpecialistsAsync,
-} from "@/lib/features/specialist/specialistsSlice";
+} from "@/src/lib/features/specialist/specialistsSlice";
 
 const dummyAppointments = [
   { id: 1, customerId: 1, businessId: 1, specialistId: 1 },

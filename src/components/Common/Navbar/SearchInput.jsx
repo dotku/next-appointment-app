@@ -2,8 +2,8 @@
 
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
-import { useAppDispatch } from "@/lib/hooks";
-import { updateSpecialistsFilter } from "@/lib/features/specialist/specialistsSlice";
+import { useAppDispatch } from "@/src/lib/hooks";
+import { updateSpecialistsFilter } from "@/src/lib/features/specialist/specialistsSlice";
 import { useState } from "react";
 
 export default function SearchInput() {

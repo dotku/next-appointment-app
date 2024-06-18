@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import supabase from "src/services/supabase";
 import styled from "styled-components";
-import SignUpButton from "../../../../app/components/Auth/SignUpButton";
+import SignUpButton from "../../../app/components/Auth/SignUpButton";
 
 const CustomAvatar = styled.div`
   .transition-opacity {
