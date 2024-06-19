@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -9,8 +11,19 @@ import Link from "next/link";
 import ProfileDropdown from "./ProfileDropdown";
 import classNames from "classnames";
 import SearchInput from "./SearchInput";
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "next/navigation";
+import i18next from "@/src/lib/i18n/i18n";
 
 function AppNavbar({ slug = "home", theme = "light", maxWidth = "2xl" }) {
+  const { t } = useTranslation();
+  const searchParams = useSearchParams();
+  const lng = searchParams.get("lng");
+
+  useEffect(() => {
+    i18next.changeLanguage(lng);
+  }, [lng]);
+
   return (
     <Navbar
       maxWidth={maxWidth}
@@ -23,33 +36,31 @@ function AppNavbar({ slug = "home", theme = "light", maxWidth = "2xl" }) {
           AptApp
         </Link>
       </NavbarBrand>
-
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem isActive={["home", "/"].includes(slug)}>
           <Link color="foreground" href="/">
-            Home
+            {t("Home")}
           </Link>
         </NavbarItem>
         <NavbarItem isActive={["admin"].includes(slug)}>
           <Link color="foreground" href="admin">
-            Admin
+            {t("Admin")}
           </Link>
         </NavbarItem>
         <NavbarItem isActive={["appointment"].includes(slug)}>
           <Link color="foreground" href="appointment">
-            Appointment
+            {t("Appointment")}
           </Link>
         </NavbarItem>
         <NavbarItem isActive={["doc"].includes(slug)}>
           <Link color="foreground" href="/doc">
-            Doc
+            {t("Doc")}
           </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent className="">
         <SearchInput />
       </NavbarContent>
-
       <ProfileDropdown />
     </Navbar>
   );
