@@ -1,6 +1,7 @@
 import "../index.css";
 import type { Metadata } from "next";
 import StoreProvider from "./StoreProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Appointment Booking App",
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body>
         <div id="root">
           <StoreProvider>{children}</StoreProvider>
+          <Analytics />
         </div>
       </body>
     </html>
