@@ -116,7 +116,9 @@ export const servicesSlice = createAppSlice({
             item.name
               .toLowerCase()
               .includes(newFilter.keywords.toLowerCase()) ||
-            item.intro.toLowerCase().includes(newFilter.keywords.toLowerCase())
+            item.description
+              .toLowerCase()
+              .includes(newFilter.keywords.toLowerCase())
         );
       }
     ),
