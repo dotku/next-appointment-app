@@ -4,12 +4,23 @@ import { fetchAppointments } from "./appointmentsAPI";
 import { getLocalTimeZone, today } from "@internationalized/date";
 
 // A mock function to mimic making an async request for data
+// @todo should use graphql here
 export const dummyAppointments = [
   {
     id: 1,
     customerId: 1,
     businessId: 1,
-    specialistId: 1,
+    service: [
+      {
+        id: 1,
+        name: "Service One",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        price: 30,
+        userId: 1,
+        businessId: 1,
+      },
+    ],
     // date: today(getLocalTimeZone()).add({ days: 5 }).toString(),
     date: today(getLocalTimeZone()).add({ days: 5 }).toDate("PST"),
   },

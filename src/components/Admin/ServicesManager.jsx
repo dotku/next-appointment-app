@@ -28,10 +28,6 @@ export default function ServicesManager() {
       alert("please enter new service name");
       return;
     }
-    if (!newServiceDescription) {
-      alert("please enter new service description");
-      return;
-    }
     if (!newServicePrice) {
       alert("please enter new service price");
       return;
@@ -48,6 +44,7 @@ export default function ServicesManager() {
       ])
     );
     setNewServiceName("");
+    setNewServicePrice(0);
   };
 
   return (
@@ -56,6 +53,7 @@ export default function ServicesManager() {
       <label className="block w-80 mt-2">
         <span className="text-gray-700">service name</span>
         <input
+          required
           value={newServiceName}
           className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           onChange={(e) => setNewServiceName(e.target.value)}
@@ -65,6 +63,7 @@ export default function ServicesManager() {
         <span className="text-gray-700">service price</span>
         <input
           type="number"
+          required
           value={newServicePrice}
           className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           onChange={(e) => setNewServicePrice(e.target.value)}

@@ -2,11 +2,17 @@ import {
   selectAppointments,
   updateAppointmentsAsync,
 } from "@/src/lib/features/appointments/appointmentsSlice";
+import { selectBusinesses } from "@/src/lib/features/businesses/businessesSlice";
+import { selectServices } from "@/src/lib/features/services/servicesSlice";
+import { selectUsers } from "@/src/lib/features/users/usersSlice";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import { Calendar } from "@nextui-org/react";
 import { useState } from "react";
 
 export default function AppointmentsAdmin() {
+  const customers = useAppSelector(selectUsers);
+  const businesses = useAppSelector(selectBusinesses);
+  const services = useAppSelector(selectServices);
   const appointments = useAppSelector(selectAppointments);
   const dispatch = useAppDispatch();
   const [newBusinessName, setNewBusinessName] = useState("");
@@ -33,6 +39,8 @@ export default function AppointmentsAdmin() {
     setNewBusinessName("");
   };
 
+  const setSelectedManagerSpecialistUser = () => {};
+
   return (
     <>
       <h2 className="text-xl mt-4">Appointments</h2>
@@ -40,27 +48,45 @@ export default function AppointmentsAdmin() {
         <div className="lg:col-span-1">
           <label className="block w-80 mt-2">
             <span className="text-gray-700">Customer</span>
-            <input
-              value={newBusinessName}
-              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              onChange={(e) => setNewBusinessName(e.target.value)}
-            />
+            <select
+              onChange={() => {}}
+              className="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+              <option value="">Select</option>
+              {customers.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
           </label>
           <label className="block w-80 mt-2">
             <span className="text-gray-700">Business</span>
-            <input
-              value={newBusinessName}
-              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              onChange={(e) => setNewBusinessLocation(e.target.value)}
-            />
+            <select
+              onChange={() => {}}
+              className="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+              <option value="">Select</option>
+              {businesses.map((business) => (
+                <option key={business.id} value={business.id}>
+                  {business.name}
+                </option>
+              ))}
+            </select>
           </label>
           <label className="block w-80 mt-2">
             <span className="text-gray-700">Service</span>
-            <input
-              value={newBusinessName}
-              className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              onChange={(e) => setNewBusinessLocation(e.target.value)}
-            />
+            <select
+              onChange={() => {}}
+              className="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+              <option value="">Select</option>
+              {services.map((service) => (
+                <option key={service.id} value={service.id}>
+                  {service.name} - {service.price}
+                </option>
+              ))}
+            </select>
           </label>
           <label className="block w-80 mt-2">
             <span className="text-gray-700">Date</span>

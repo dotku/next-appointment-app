@@ -131,7 +131,7 @@ export default function Admin() {
   };
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 px-6">
       <div>
         <TasksManager />
       </div>
