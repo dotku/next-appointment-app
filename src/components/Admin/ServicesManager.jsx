@@ -1,7 +1,7 @@
 import {
   selectServices,
   updateServicesAsync,
-} from "@/src/lib/features/Services/ServicesSlice";
+} from "@/src/lib/features/Services/servicesSlice";
 import { useAppDispatch, useAppSelector } from "@/src/lib/hooks";
 import { Textarea } from "@nextui-org/react";
 import { useState } from "react";
