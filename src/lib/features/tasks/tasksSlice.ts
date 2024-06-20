@@ -73,11 +73,11 @@ export const tasksSlice = createAppSlice({
     // will call the thunk with the `dispatch` function as the first argument. Async
     // code can then be executed and other actions can be dispatched. Thunks are
     // typically used to make async requests.
-    updatedTasksAsync: creator.asyncThunk(
+    updatedTaskAsync: creator.asyncThunk(
       async (tasks: Task[]) => {
         const response = await fetchTasks(tasks);
         // The value we return becomes the `fulfilled` action payload
-        console.log("updatedTasksAsync", response);
+        console.log("updatedTaskAsync", response);
         return response.data;
       },
       {
@@ -103,7 +103,7 @@ export const tasksSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function.
-export const { createTask, removeTask, updatedTasksAsync } = tasksSlice.actions;
+export const { createTask, removeTask, updatedTaskAsync } = tasksSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
 export const { selectTasks, selectTasksStatus } = tasksSlice.selectors;
