@@ -5,6 +5,8 @@ import { usersSlice } from "./features/users/usersSlice";
 import { appointmentsSlice } from "./features/appointments/appointmentsSlice";
 import { businessesSlice } from "./features/businesses/businessesSlice";
 import { specialistsSlice } from "./features/specialist/specialistsSlice";
+import { servicesSlice } from "./features/services/servicesSlice";
+import { tasksSlice } from "./features/tasks/tasksSlice";
 
 // import { quotesApiSlice } from "./features/quotes/quotesApiSlice";
 
@@ -15,7 +17,9 @@ const rootReducer = combineSlices(
   counterSlice,
   usersSlice,
   businessesSlice,
-  specialistsSlice
+  specialistsSlice,
+  servicesSlice,
+  tasksSlice
   // quotesApiSlice
 );
 // Infer the `RootState` type from the root reducer

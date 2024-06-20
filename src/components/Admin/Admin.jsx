@@ -7,8 +7,11 @@ import {
   selectUsersStatus,
   updateUsersAsync,
 } from "@/src/lib/features/users/usersSlice";
-import { selectBusinesses } from "@/src/lib/features/businesses/businessesSlice";
-import BusinessesAdmin from "./BusinessesAdmin";
+import { selectServices } from "@/src/lib/features/services/servicesSlice";
+import TasksManager from "./TasksManager";
+import AppointmentsManager from "./AppointmentsManager";
+import BusinessesManager from "./BusinessesManager";
+import ServicesManager from "./ServicesManager";
 import {
   selectSpecialists,
   updateSpecialistsAsync,
@@ -19,7 +22,7 @@ const dummyAppointments = [
 ];
 
 export default function Admin() {
-  const businesses = useAppSelector(selectBusinesses);
+  const businesses = useAppSelector(selectServices);
   const users = useAppSelector(selectUsers);
   const usersStatus = useAppSelector(selectUsersStatus);
   const specialists = useAppSelector(selectSpecialists);
@@ -129,16 +132,18 @@ export default function Admin() {
 
   return (
     <div className="mt-4">
-      <h2 className="text-2xl">Administration</h2>
-      <p className="text-gray-400">
-        This administration could be used for internal mangament or support
-        assistant
-      </p>
-      <div className="grid lg:grid-cols-3 gap-4 grid-xs-cols-1">
+      <div>
+        <TasksManager />
+      </div>
+      <div>
+        <AppointmentsManager />
+      </div>
+      <div className="grid lg:grid-cols-4 gap-4 grid-xs-cols-1">
         <div>
-          <h3 className="text-xl">Customers</h3>
-          <p>User as customer</p>
-          <label className="block w-80">
+          <h2 className="text-xl mt-4" title="User as customer">
+            Customers
+          </h2>
+          <label className="block w-80 mt-2">
             <span className="text-gray-700">customer name</span>
             <input
               value={newCustomerName}
@@ -157,11 +162,11 @@ export default function Admin() {
           </pre>
         </div>
         <div>
-          <BusinessesAdmin />
+          <BusinessesManager />
         </div>
         <div>
           <h2 className="text-xl mt-4">Specialist</h2>
-          <label className="block">
+          <label className="block mt-2">
             <span className="text-gray-700">select business</span>
             <select
               onChange={(e) =>
@@ -178,7 +183,7 @@ export default function Admin() {
               ))}
             </select>
           </label>
-          <label className="block">
+          <label className="block mt-2">
             <span className="text-gray-700">select user</span>
             <select
               onChange={(e) => setSelectedManagerSpecialistUser(e.target.value)}
@@ -193,7 +198,7 @@ export default function Admin() {
               ))}
             </select>
           </label>
-          <label className="block w-80">
+          <label className="block w-80 mt-2">
             <span className="text-gray-700">specialist name</span>
             <input
               className="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -209,6 +214,9 @@ export default function Admin() {
           <pre className="text-gray-400" style={{ whiteSpace: "pre-wrap" }}>
             {JSON.stringify(specialists, null, 2)}
           </pre>
+        </div>
+        <div>
+          <ServicesManager />
         </div>
       </div>
     </div>

@@ -13,11 +13,11 @@ export default function BusinessesAdmin() {
 
   const handleNewStudioAdd = () => {
     if (!newBusinessName) {
-      alert("please enter new customer name");
+      alert("please enter new business name");
       return;
     }
     if (!newBusinessLocation) {
-      alert("please enter new customer name");
+      alert("please enter new business location");
       return;
     }
     dispatch(
@@ -35,7 +35,7 @@ export default function BusinessesAdmin() {
   return (
     <>
       <h2 className="text-xl mt-4">Businesses</h2>
-      <label className="block w-80">
+      <label className="block w-80 mt-2">
         <span className="text-gray-700">business name</span>
         <input
           value={newBusinessName}
@@ -43,7 +43,7 @@ export default function BusinessesAdmin() {
           onChange={(e) => setNewBusinessName(e.target.value)}
         />
       </label>
-      <label className="block w-80">
+      <label className="block w-80 mt-2">
         <span className="text-gray-700">business location</span>
         <input
           value={newBusinessName}

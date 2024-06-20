@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AppNavbar from "../../components/Common/Navbar/AppNavbar";
+import AdminSidebar from "../../components/Admin/AdminSidebar";
 
 export const metadata: Metadata = {
   title: "Appointment Booking App",
@@ -15,7 +16,12 @@ export default function RootLayout({
   return (
     <>
       <AppNavbar slug="admin" theme="dark" maxWidth="full" />
-      <div className="px-6">{children}</div>
+      <div className="flex">
+        <div className="flex-none w-[19rem] pl-8 pr-6 mt-10">
+          <AdminSidebar />
+        </div>
+        <div className="flex-1">{children}</div>
+      </div>
     </>
   );
 }
