@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AppNavbar from "../../components/Common/Navbar/AppNavbar";
+import AdminLayoutClient from "../../components/Admin/components/AdminLayoutClient";
 
 export const metadata: Metadata = {
   title: "Appointment Booking App",
@@ -12,10 +12,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <AppNavbar slug="admin" theme="dark" maxWidth="full" />
-      <div className="px-6">{children}</div>
-    </>
-  );
+  return <AdminLayoutClient>{children}</AdminLayoutClient>;
 }

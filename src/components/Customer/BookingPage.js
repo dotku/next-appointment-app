@@ -15,7 +15,7 @@ import { selectBusinesses } from "@/src/lib/features/businesses/businessesSlice"
 import {
   selectAppointments,
   selectAppointmentsStatus,
-  updatedAppointmentsAsync,
+  updateAppointmentsAsync,
 } from "@/src/lib/features/appointments/appointmentsSlice";
 import {
   dummySpecialists,
@@ -170,7 +170,7 @@ const BookingPage = () => {
     }
     // Here you can add logic to handle the booking
     dispatch(
-      updatedAppointmentsAsync([
+      updateAppointmentsAsync([
         {
           id: appointments[0].id + 1,
           customerId: selectedCustomer,
