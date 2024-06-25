@@ -17,21 +17,6 @@ export async function GET(_req, { params }) {
   });
 }
 
-async function updateUserDisplayName() {
-  const { data, error } = await supabaseAdmin.auth.admin.updateUserById(
-    userId,
-    {
-      user_metadata: { displayName: newDisplayName },
-    }
-  );
-
-  if (error) {
-    console.error("Error updating user display name:", error);
-  } else {
-    console.log("User display name updated successfully:", data);
-  }
-}
-
 export async function PATCH(_req, { params }) {
   const { data: sessionData, error: sessionError } =
     await supabaseAdmin.auth.getSession();
