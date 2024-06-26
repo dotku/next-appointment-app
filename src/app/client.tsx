@@ -13,12 +13,12 @@ export default function App() {
       "client: NEXT_PUBLIC_PUBLIC_SUPABASE_URL",
       process.env.NEXT_PUBLIC_SUPABASE_URL
     );
-    console.log(
-      "REACT_NEXT_PUBLIC_SUPABASE_URL",
-      process.env,
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.REACT_APP_PUBLIC_SUPABASE_ANON_KEY
-    );
+    // console.log(
+    //   "REACT_NEXT_PUBLIC_SUPABASE_URL",
+    //   process.env,
+    //   process.env.NEXT_PUBLIC_SUPABASE_URL,
+    //   process.env.REACT_APP_PUBLIC_SUPABASE_ANON_KEY
+    // );
   }, []);
 
   return <ReactApp />;
