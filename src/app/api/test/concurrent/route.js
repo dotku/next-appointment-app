@@ -9,7 +9,7 @@ const urls = [
 
 export async function GET() {
   try {
-    const results = await concurrent(urls, 2, 10);
+    const results = await concurrent(urls, 2, 1000);
     console.log("result", results);
     return NextResponse.json(results);
   } catch (e) {
