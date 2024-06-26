@@ -9,10 +9,13 @@ const urls = [
 
 export async function GET() {
   try {
-    const results = await concurrent(urls, 2, 1000);
+    const results = await concurrent(urls, 2, 10);
     console.log("result", results);
     return NextResponse.json(results);
   } catch (e) {
-    return NextResponse.json(e);
+    console.error(e);
+    return new NextResponse(JSON.stringify(e), {
+      status: 500,
+    });
   }
 }

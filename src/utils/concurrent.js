@@ -1,5 +1,5 @@
 // @input urls, maxConcurrent, maxDelay
-const concurrent = (urls = [], maxConcurrent, maxDelay) =>
+const concurrent = async (urls = [], maxConcurrent, maxDelay) =>
   new Promise(async (rsv, rej) => {
     setTimeout(() => {
       console.error("concurrent time out");
@@ -16,7 +16,7 @@ const concurrent = (urls = [], maxConcurrent, maxDelay) =>
         const newResults = await Promise.all(newPromises);
         results.push(...newResults);
       } catch (e) {
-        return Error(e);
+        rej(e.message);
       }
       pointer += maxConcurrent;
     }
@@ -31,6 +31,7 @@ async function getFetches(urls) {
       return result;
     } catch (e) {
       console.error("fetch failed");
+      throw Error(e.message);
     }
   });
 }
