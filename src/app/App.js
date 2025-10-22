@@ -54,7 +54,7 @@ function App() {
             <InteractiveMap
               apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
               businesses={businesses}
-              zoom={10}
+              zoom={8}
               height="500px"
               onBusinessClick={handleBusinessClick}
             />

@@ -20,7 +20,8 @@ export default function ProfileCard({ profile }) {
             isBordered
             radius="full"
             size="md"
-            src={`https://avatar.iran.liara.run/public/girl?username=${profile.name}`}
+            // src={`https://avatar.iran.liara.run/public/girl?username=${profile.name}`}
+            src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${profile.name}&scale=120&skinColor=f2d3b1,ecad80&mouth=variant01,variant23,variant27,variant16`}
           />
           <div className="flex flex-col gap-1 items-start justify-center">
             <h4 className="text-small font-semibold leading-none text-default-600">

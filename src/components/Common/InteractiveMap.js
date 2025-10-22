@@ -124,29 +124,44 @@ export default function InteractiveMap({
                 lng: Number(selectedBusiness.longitude),
               }}
               onCloseClick={handleClose}
+              headerDisabled={true}
             >
-              <div className="p-2 max-w-xs">
-                <h3 className="font-bold text-lg mb-2">
-                  {selectedBusiness.name}
-                </h3>
-                {selectedBusiness.address && (
-                  <p className="text-sm text-gray-700 mb-1">
-                    📍 {selectedBusiness.address}
-                  </p>
-                )}
-                {selectedBusiness.city && (
-                  <p className="text-sm text-gray-700 mb-1">
-                    🏙️ {selectedBusiness.city}
-                  </p>
-                )}
-                {selectedBusiness.phone && (
-                  <p className="text-sm text-gray-700 mb-2">
-                    📞 {selectedBusiness.phone}
-                  </p>
-                )}
+              <div className="min-w-[280px]">
+                <div className="flex items-start justify-between mb-3 border-b pb-2">
+                  <h3 className="font-bold text-lg pr-2">
+                    {selectedBusiness.name}
+                  </h3>
+                  <button
+                    onClick={handleClose}
+                    className="text-gray-400 hover:text-gray-600 text-xl leading-none -mt-1"
+                    aria-label="Close"
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {selectedBusiness.address && (
+                    <p className="text-sm text-gray-700 flex items-start">
+                      <span className="mr-2">📍</span>
+                      <span>{selectedBusiness.address}</span>
+                    </p>
+                  )}
+                  {selectedBusiness.city && (
+                    <p className="text-sm text-gray-700 flex items-center">
+                      <span className="mr-2">🏙️</span>
+                      <span>{selectedBusiness.city}</span>
+                    </p>
+                  )}
+                  {selectedBusiness.phone && (
+                    <p className="text-sm text-gray-700 flex items-center">
+                      <span className="mr-2">📞</span>
+                      <span>{selectedBusiness.phone}</span>
+                    </p>
+                  )}
+                </div>
                 <button
                   onClick={() => onBusinessClick?.(selectedBusiness)}
-                  className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+                  className="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm font-medium"
                 >
                   Book Appointment
                 </button>
