@@ -60,11 +60,15 @@ export default function ProfileCard({ profile }) {
           </p>
           <div>
             <p className=" text-default-400 text-small">
-              {profile.availibilities.map((a) => (
-                <Button size="sm" variant="bordered" className="me-1" key={a}>
-                  {days[a]}
-                </Button>
-              ))}
+              {profile.availabilities && Array.isArray(profile.availabilities) ? (
+                profile.availabilities.map((a) => (
+                  <Button size="sm" variant="bordered" className="me-1" key={a}>
+                    {days[a]}
+                  </Button>
+                ))
+              ) : (
+                <span className="text-xs text-gray-500">未设置</span>
+              )}
             </p>
           </div>
         </div>

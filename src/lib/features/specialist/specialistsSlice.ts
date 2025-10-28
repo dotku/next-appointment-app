@@ -45,7 +45,7 @@ export interface SpecialistsSliceState {
 }
 
 const initialState = {
-  value: dummySpecialists,
+  value: [], // 不使用 dummy 数据，从 API 获取
   filter: {
     keywords: "",
     date: null,
@@ -76,25 +76,46 @@ export const specialistsSlice = createAppSlice({
         );
       }
     ),
-    updateSpecialistsFilter: creator.reducer(
+    updateSpecialistsFilter: creator.asyncThunk(
+      async (keywords: string) => {
+        console.log("updateSpecialistsFilter - calling API with:", keywords);
+        
+        const response = await fetch('/api/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: keywords }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Search failed');
+        }
+
+        const data = await response.json();
+        // 返回搜索结果中的专员列表
+        return data.specialists || [];
+      },
+      {
+        pending: (state) => {
+          state.status = "loading";
+        },
+        fulfilled: (state, action: PayloadAction<Specialist[]>) => {
+          state.status = "idle";
+          // 使用 action.payload（API 返回的结果）
+          state.value = action.payload;
+        },
+        rejected: (state) => {
+          state.status = "failed";
+          state.value = [];
+        },
+      }
+    ),
+    // 保存搜索关键词
+    setKeywordsFilter: creator.reducer(
       (state, action: PayloadAction<{ keywords: string }>) => {
-        console.log("updateSpecialistsFilter");
-        const newFilter = {
+        state.filter = {
           ...state.filter,
           ...action.payload,
         };
-
-        state.filter = newFilter;
-        console.log("state.value", state.value);
-        // keywords search
-        // @todo could use AI for suggestion
-        state.value = dummySpecialists.filter(
-          (item) =>
-            item.name
-              .toLowerCase()
-              .includes(newFilter.keywords.toLowerCase()) ||
-            item.intro.toLowerCase().includes(newFilter.keywords.toLowerCase())
-        );
       }
     ),
     // Use the `PayloadAction` type to declare the contents of `action.payload`
@@ -104,6 +125,12 @@ export const specialistsSlice = createAppSlice({
           user.id === action.payload.id ? action.payload : user
         );
         return { ...state, value: updatedSpecialists };
+      }
+    ),
+    // 直接设置整个列表
+    setSpecialists: creator.reducer(
+      (state, action: PayloadAction<Specialist[]>) => {
+        state.value = action.payload;
       }
     ),
     // The function below is called a thunk and allows us to perform async logic. It
@@ -146,6 +173,8 @@ export const {
   removeSpecialist,
   updateSpecialistsAsync,
   updateSpecialistsFilter,
+  setKeywordsFilter,
+  setSpecialists,
 } = specialistsSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
