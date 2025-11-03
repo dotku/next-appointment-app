@@ -4,8 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import ProfileCard from "../Elements/ProfileCard";
 import { days } from "../Elements/Calendar";
 import supabase from "@/src/services/supabase";
-import { useAppSelector } from "@/src/lib/hooks";
-import { useAppDispatch } from "@/src/store/store";
+import { useAppSelector, useAppDispatch } from "@/src/lib/hooks";
 import {
   createUser,
   updateUsersAsync,

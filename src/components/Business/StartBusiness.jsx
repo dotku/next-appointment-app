@@ -1,82 +1,79 @@
 import { Button, Chip, Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import supabase from "@/src/services/supabase";
-import ApplySpecialistModal from "./ApplySpecialistModal";
+import CreateBusinessModal from "./CreateBusinessModal";
 
-export default function ApplyForSpecilist({ userID }) {
-  console.log("ApplyForSpecilist", userID);
+export default function StartBusiness({ userID }) {
+  console.log("StartBusiness", userID);
   
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [specialistData, setSpecialistData] = useState(null);
+  const [businessData, setBusinessData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Load specialist data on mount
+  // Load business data on mount
   useEffect(() => {
-    loadSpecialistData();
+    loadBusinessData();
   }, [userID]);
 
-  const loadSpecialistData = async () => {
+  const loadBusinessData = async () => {
     setIsLoading(true);
     try {
-      // Check if user already applied as specialist
+      // Check if user already has a business
       const { data, error: fetchError } = await supabase
-        .from("specialists")
+        .from("businesses")
         .select("*")
-        .eq("profile_id", userID)
+        .eq("owner_id", userID)
         .single();
 
       if (fetchError && fetchError.code !== 'PGRST116') {
         // PGRST116 is "not found" error, which is ok
-        console.error("Load specialist error:", fetchError);
+        console.error("Load business error:", fetchError);
         setError(fetchError.message);
       } else if (data) {
-        setSpecialistData(data);
+        setBusinessData(data);
       }
     } catch (err) {
-      console.error("Load specialist error:", err);
+      console.error("Load business error:", err);
       setError(err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleApplyClick = () => {
+  const handleCreateClick = () => {
     setIsModalOpen(true);
   };
 
-  const handleApplicationSuccess = (newSpecialistData) => {
-    setSpecialistData(newSpecialistData);
+  const handleBusinessCreated = (newBusinessData) => {
+    setBusinessData(newBusinessData);
     setIsModalOpen(false);
   };
 
   if (isLoading) return <Spinner />;
   if (error) return <div className="text-danger">{error}</div>;
   
-  // If user already has a specialist record
-  if (specialistData) {
-    return specialistData.is_approved === true ? (
+  // If user already has a business
+  if (businessData) {
+    return (
       <Chip color="success" className="text-white">
-        Verified Specialist
-      </Chip>
-    ) : (
-      <Chip color="warning">
-        Pending Approval
+        Business Owner
       </Chip>
     );
   }
   
-  // Show apply button if user hasn't applied yet
+  // Show create button if user hasn't created a business yet
   return (
     <>
-      <Button onClick={handleApplyClick}>Apply for Specialist</Button>
+      <Button onClick={handleCreateClick}>Start a Store</Button>
       
-      <ApplySpecialistModal
+      <CreateBusinessModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         userID={userID}
-        onSuccess={handleApplicationSuccess}
+        onSuccess={handleBusinessCreated}
       />
     </>
   );
 }
+
