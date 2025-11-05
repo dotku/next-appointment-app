@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import ProfileCard from "../Elements/ProfileCard";
+import BusinessCard from "../Elements/BusinessCard";
 import { days } from "../Elements/Calendar";
 import supabase from "@/src/services/supabase";
 import { useAppSelector, useAppDispatch } from "@/src/lib/hooks";
@@ -406,14 +407,7 @@ const BookingPage = () => {
                 Salons ({businesses.length})
               </h3>
               {businesses.map((business) => (
-                <div key={business.id} className="mb-4 p-4 border rounded-lg">
-                  <h4 className="font-semibold">{business.name}</h4>
-                  <p className="text-sm text-gray-600">{business.city}</p>
-                  {business.address && (
-                    <p className="text-sm text-gray-500">{business.address}</p>
-                  )}
-                  {business.phone && <p className="text-sm">{business.phone}</p>}
-                </div>
+                <BusinessCard key={business.id} business={business} />
               ))}
             </div>
           )}

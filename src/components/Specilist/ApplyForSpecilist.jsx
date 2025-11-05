@@ -38,7 +38,7 @@ export default function ApplyForSpecilist({ userID }) {
       setError(err.message);
     } finally {
       setIsLoading(false);
-    }
+      }
   };
 
   const handleApplyClick = () => {

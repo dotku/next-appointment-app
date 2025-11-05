@@ -55,9 +55,13 @@ export default function StartBusiness({ userID }) {
   
   // If user already has a business
   if (businessData) {
-    return (
+    return businessData.is_approved === true ? (
       <Chip color="success" className="text-white">
-        Business Owner
+        Verified Business Owner
+      </Chip>
+    ) : (
+      <Chip color="warning">
+        Business Pending Approval
       </Chip>
     );
   }

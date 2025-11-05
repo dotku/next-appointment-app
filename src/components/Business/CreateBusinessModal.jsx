@@ -13,8 +13,9 @@ import {
   Textarea,
   Divider,
 } from "@nextui-org/react";
-import { uploadImage } from "@/src/lib/utils/uploadImage";
+import { uploadBusinessLogo } from "@/src/lib/utils/uploadImage";
 import supabase from "@/src/services/supabase";
+import AddressAutocomplete from "@/src/components/Common/AddressAutocomplete";
 
 export default function CreateBusinessModal({ isOpen, onClose, userID, onSuccess }) {
   // Form data
@@ -69,6 +70,8 @@ export default function CreateBusinessModal({ isOpen, onClose, userID, onSuccess
     setSubmitting(true);
     setError(null);
 
+    let createdBusinessId = null;
+
     try {
       // Get current user
       const { data: { user } } = await supabase.auth.getUser();
@@ -86,38 +89,54 @@ export default function CreateBusinessModal({ isOpen, onClose, userID, onSuccess
         return;
       }
 
-      let finalLogoUrl = logoUrl;
-
-      // Upload logo if selected
-      if (selectedFile) {
-        const uploadResult = await uploadImage(selectedFile, `businesses/${userID}`, "UserAvatars");
-
-        if (!uploadResult.success) {
-          setError(uploadResult.error);
-          setSubmitting(false);
-          return;
-        }
-
-        finalLogoUrl = uploadResult.url;
+      if (!city.trim()) {
+        setError("City is required");
+        setSubmitting(false);
+        return;
       }
 
-      // Create business record
+      if (!address.trim()) {
+        setError("Address is required");
+        setSubmitting(false);
+        return;
+      }
+
+      if (!phone.trim()) {
+        setError("Phone is required");
+        setSubmitting(false);
+        return;
+      }
+
+      if (!email.trim()) {
+        setError("Email is required");
+        setSubmitting(false);
+        return;
+      }
+
+      if (!calendlyUrl.trim()) {
+        setError("Calendly URL is required");
+        setSubmitting(false);
+        return;
+      }
+
+      // STEP 1: Insert business record first (without logo_url)
       const { data: insertData, error: insertError } = await supabase
         .from("businesses")
         .insert([
           {
             owner_id: userID,
             name: name.trim(),
-            city: city.trim() || null,
-            address: address.trim() || null,
+            city: city.trim(),
+            address: address.trim(),
             description: description.trim() || null,
-            phone: phone.trim() || null,
-            email: email.trim() || null,
+            phone: phone.trim(),
+            email: email.trim(),
             website: website.trim() || null,
-            logo_url: finalLogoUrl,
-            calendly_url: calendlyUrl.trim() || null,
+            logo_url: null, // Will be updated after upload
+            calendly_url: calendlyUrl.trim(),
             latitude: latitude.trim() ? parseFloat(latitude) : null,
             longitude: longitude.trim() ? parseFloat(longitude) : null,
+            is_approved: true, // Auto-approve new businesses
           },
         ])
         .select();
@@ -129,7 +148,52 @@ export default function CreateBusinessModal({ isOpen, onClose, userID, onSuccess
         return;
       }
 
-      console.log("Business created:", insertData);
+      createdBusinessId = insertData[0].id;
+      console.log("Business created with ID:", createdBusinessId);
+
+      // STEP 2: Upload logo if selected, using the business ID as filename
+      if (selectedFile) {
+        const uploadResult = await uploadBusinessLogo(selectedFile, createdBusinessId);
+
+        if (!uploadResult.success) {
+          console.error("Logo upload failed:", uploadResult.error);
+          
+          // ROLLBACK: Delete the business record
+          const { error: deleteError } = await supabase
+            .from("businesses")
+            .delete()
+            .eq("id", createdBusinessId);
+          
+          if (deleteError) {
+            console.error("Failed to rollback business:", deleteError);
+            setError(`Logo upload failed and rollback failed: ${uploadResult.error}. Please contact support.`);
+          } else {
+            console.log("Business record rolled back successfully");
+            setError(`Logo upload failed: ${uploadResult.error}. Business creation cancelled.`);
+          }
+          
+          setSubmitting(false);
+          return;
+        }
+
+        // STEP 3: Update business record with logo_url
+        const { error: updateError } = await supabase
+          .from("businesses")
+          .update({ logo_url: uploadResult.url })
+          .eq("id", createdBusinessId);
+
+        if (updateError) {
+          console.error("Failed to update logo_url:", updateError);
+          setError("Business created but failed to save logo URL: " + updateError.message);
+          setSubmitting(false);
+          return;
+        }
+
+        console.log("Logo uploaded and business updated:", uploadResult.url);
+        insertData[0].logo_url = uploadResult.url;
+      }
+
+      console.log("Business created successfully:", insertData[0]);
       
       // Notify parent and close modal
       if (onSuccess) {
@@ -140,7 +204,24 @@ export default function CreateBusinessModal({ isOpen, onClose, userID, onSuccess
       handleClose();
     } catch (err) {
       console.error("Create business error:", err);
-      setError("Failed to create business: " + err.message);
+      
+      // ROLLBACK: Try to delete business if it was created
+      if (createdBusinessId) {
+        const { error: deleteError } = await supabase
+          .from("businesses")
+          .delete()
+          .eq("id", createdBusinessId);
+        
+        if (deleteError) {
+          console.error("Failed to rollback business:", deleteError);
+          setError(`Error occurred and rollback failed: ${err.message}. Please contact support.`);
+        } else {
+          console.log("Business record rolled back successfully");
+          setError(`Error occurred: ${err.message}. Business creation cancelled.`);
+        }
+      } else {
+        setError("Failed to create business: " + err.message);
+      }
     } finally {
       setSubmitting(false);
     }
@@ -264,18 +345,24 @@ export default function CreateBusinessModal({ isOpen, onClose, userID, onSuccess
 
                 {/* City */}
                 <Input
-                  placeholder="City (optional)"
+                  placeholder="City *"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   variant="bordered"
+                  isRequired
                 />
 
-                {/* Address */}
-                <Input
-                  placeholder="Address (optional)"
+                {/* Address with Google Maps Autocomplete */}
+                <AddressAutocomplete
                   value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  variant="bordered"
+                  onChange={(newAddress) => setAddress(newAddress)}
+                  onPlaceSelect={(place) => {
+                    setAddress(place.address);
+                    setLatitude(place.lat.toString());
+                    setLongitude(place.lng.toString());
+                  }}
+                  placeholder="Address * (start typing to search)"
+                  isRequired
                 />
 
                 {/* Description */}
@@ -289,19 +376,21 @@ export default function CreateBusinessModal({ isOpen, onClose, userID, onSuccess
 
                 {/* Phone */}
                 <Input
-                  placeholder="Phone (optional)"
+                  placeholder="Phone *"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   variant="bordered"
+                  isRequired
                 />
 
                 {/* Email */}
                 <Input
-                  placeholder="Email (optional)"
+                  placeholder="Email *"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   variant="bordered"
                   type="email"
+                  isRequired
                 />
 
                 {/* Website */}
@@ -314,31 +403,36 @@ export default function CreateBusinessModal({ isOpen, onClose, userID, onSuccess
 
                 {/* Calendly URL */}
                 <Input
-                  placeholder="Calendly URL (optional): https://calendly.com/your-link"
+                  placeholder="Calendly URL *: https://calendly.com/your-link"
                   value={calendlyUrl}
                   onChange={(e) => setCalendlyUrl(e.target.value)}
                   variant="bordered"
+                  isRequired
                 />
 
-                {/* Latitude & Longitude */}
-                <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    placeholder="Latitude (optional)"
-                    value={latitude}
-                    onChange={(e) => setLatitude(e.target.value)}
-                    variant="bordered"
-                    type="number"
-                    step="any"
-                  />
-                  <Input
-                    placeholder="Longitude (optional)"
-                    value={longitude}
-                    onChange={(e) => setLongitude(e.target.value)}
-                    variant="bordered"
-                    type="number"
-                    step="any"
-                  />
-                </div>
+                {/* Latitude & Longitude - Auto-populated from address */}
+                {(latitude || longitude) && (
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input
+                      placeholder="Latitude"
+                      value={latitude}
+                      variant="bordered"
+                      isReadOnly
+                      classNames={{
+                        input: "font-mono"
+                      }}
+                    />
+                    <Input
+                      placeholder="Longitude"
+                      value={longitude}
+                      variant="bordered"
+                      isReadOnly
+                      classNames={{
+                        input: "font-mono"
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

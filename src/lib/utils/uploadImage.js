@@ -203,7 +203,7 @@ export async function uploadBusinessLogo(file, businessId) {
   
   const { data, error } = await supabase.storage
     .from("UserAvatars")
-    .upload(`business-logos/${fileName}`, file, {
+    .upload(`store_logo/${fileName}`, file, {
       cacheControl: "3600",
       upsert: true, // 覆盖已存在的文件（更新Logo）
     });
@@ -220,13 +220,13 @@ export async function uploadBusinessLogo(file, businessId) {
 
   const { data: publicUrlData } = supabase.storage
     .from("UserAvatars")
-    .getPublicUrl(`business-logos/${fileName}`);
+    .getPublicUrl(`store_logo/${fileName}`);
 
   return {
     success: true,
     url: publicUrlData.publicUrl,
     error: null,
-    path: `business-logos/${fileName}`,
+    path: `store_logo/${fileName}`,
   };
 }
 
