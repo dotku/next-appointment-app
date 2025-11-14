@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import ProfileCard from "../Elements/ProfileCard";
+import BusinessCard from "../Elements/BusinessCard";
 import { days } from "../Elements/Calendar";
 import supabase from "@/src/services/supabase";
-import { useAppSelector } from "@/src/lib/hooks";
-import { useAppDispatch } from "@/src/store/store";
+import { useAppSelector, useAppDispatch } from "@/src/lib/hooks";
 import {
   createUser,
   updateUsersAsync,
@@ -18,15 +18,16 @@ import {
   updateAppointmentsAsync,
 } from "@/src/lib/features/appointments/appointmentsSlice";
 import {
-  dummySpecialists,
   selectSpecialists,
   updateSpecialistsAsync,
+  setSpecialists,
 } from "@/src/lib/features/specialist/specialistsSlice";
+import { setBusinesses } from "@/src/lib/features/businesses/businessesSlice";
 
 const BookingPage = () => {
   const dispatch = useAppDispatch();
   const users = useAppSelector((state) => state.users);
-  const businesses = useAppSelector(selectBusinesses);
+  const businesses = useAppSelector(selectBusinesses); // Filtered results for display
   const appointmentsStatus = useAppSelector(selectAppointmentsStatus);
   const appointments = useAppSelector(selectAppointments);
   const specialists = useAppSelector(selectSpecialists);
@@ -34,6 +35,7 @@ const BookingPage = () => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedStudio, setSelectedStudio] = useState(null);
   const [selectedFilterDay, setSelectedFilterDay] = useState();
+  const [allBusinesses, setAllBusinesses] = useState([]); // All businesses for dropdown
   const [selectedManagerSpecialistStudio, setSelectedManagerSpecialistStudio] =
     useState("");
   const [selectedManagerSpecialistUser, setSelectedManagerSpecialistUser] =
@@ -47,6 +49,73 @@ const BookingPage = () => {
   const [newStudioName, setNewStudioName] = useState("");
   const [newSpecialistName, setNewSpecialistName] = useState("");
 
+  // Load all businesses for dropdown
+  const loadAllBusinesses = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('businesses')
+        .select('*');
+      
+      if (error) {
+        console.error('Load all businesses error:', error);
+      } else {
+        setAllBusinesses(data || []);
+      }
+    } catch (error) {
+      console.error('Load all businesses error:', error);
+    }
+  };
+
+  // Search function that uses current filter state
+  const performSearch = useCallback(async () => {
+    try {
+      // Build businesses query
+      let businessesQuery = supabase.from('businesses').select('*');
+      if (selectedStudio) {
+        businessesQuery = businessesQuery.eq('id', selectedStudio);
+      }
+      
+      const { data: businessesData, error: businessesError } = await businessesQuery;
+      
+      if (businessesError) {
+        console.error('Businesses search error:', businessesError);
+        return;
+      }
+
+      // Build specialists query
+      let specialistsQuery = supabase
+        .from('specialists')
+        .select('*, businesses:business_id (name, city, address)');
+      
+      if (selectedStudio) {
+        specialistsQuery = specialistsQuery.eq('business_id', selectedStudio);
+      }
+      
+      // Filter by day availability (only if a valid day is selected)
+      if (selectedFilterDay !== null && selectedFilterDay !== undefined && selectedFilterDay !== "") {
+        const dayNum = parseInt(selectedFilterDay);
+        if (!isNaN(dayNum)) {
+          specialistsQuery = specialistsQuery.contains('availabilities', [dayNum]);
+        }
+      }
+
+      const { data: specialistsData, error: specialistsError } = await specialistsQuery;
+      
+      if (specialistsError) {
+        console.error('Specialists search error:', specialistsError);
+        return;
+      }
+      
+      console.log('Search results:', { businesses: businessesData, specialists: specialistsData });
+      
+      // Update Redux store
+      dispatch(setBusinesses(businessesData || []));
+      dispatch(setSpecialists(specialistsData || []));
+    } catch (error) {
+      console.error('Search error:', error);
+    }
+  }, [selectedStudio, selectedFilterDay, dispatch]);
+
   useEffect(() => {
     // Check current session
     const getSession = async () => {
@@ -57,7 +126,6 @@ const BookingPage = () => {
       if (session) {
         const { user } = session;
         const ifFound = users.value.find((v) => v.id === user.id);
-        //   { id: 3, name: "User Three" },
         !ifFound &&
           dispatch(
             updateUsersAsync([
@@ -73,13 +141,68 @@ const BookingPage = () => {
     };
 
     getSession();
-    // Load businesses (dummy data)
-    // setCustomers(users);
+    // Load all businesses for dropdown
+    loadAllBusinesses();
+    
+    // Initial search with current filters
+    const performInitialSearch = async () => {
+      try {
+        // Build businesses query
+        let businessesQuery = supabase.from('businesses').select('*');
+        
+        const { data: businessesData, error: businessesError } = await businessesQuery;
+        
+        if (businessesError) {
+          console.error('Businesses search error:', businessesError);
+          return;
+        }
+
+        // Build specialists query
+        let specialistsQuery = supabase
+          .from('specialists')
+          .select('*, businesses:business_id (name, city, address)');
+
+        const { data: specialistsData, error: specialistsError } = await specialistsQuery;
+        
+        if (specialistsError) {
+          console.error('Specialists search error:', specialistsError);
+          return;
+        }
+        
+        console.log('Initial search results:', { businesses: businessesData, specialists: specialistsData });
+        
+        // Update Redux store
+        dispatch(setBusinesses(businessesData || []));
+        dispatch(setSpecialists(specialistsData || []));
+      } catch (error) {
+        console.error('Initial search error:', error);
+      }
+    };
+    
+    performInitialSearch();
   }, []);
 
-  const setSpecialists = (newSpecilists) => {
-    dispatch(updateSpecialistsAsync(newSpecilists));
-  };
+  // Re-search when filters change (with debounce)
+  const debounceTimerRef = useRef(null);
+  
+  useEffect(() => {
+    // Clear previous timer
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    
+    // Set new timer - use the performSearch function directly
+    debounceTimerRef.current = setTimeout(() => {
+      performSearch();
+    }, 300); // 300ms debounce
+    
+    // Cleanup on unmount or when dependencies change
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [selectedFilterDay, selectedStudio, performSearch]);
 
   const handleStudioSpecialistAdd = () => {
     if (!selectedManagerSpecialistUser) {
@@ -96,37 +219,18 @@ const BookingPage = () => {
       alert("need user name");
       return;
     }
-    setSpecialists([
-      ...specialists,
-      {
-        id: specialists[specialists.length - 1].id + 1,
-        name: managerSpecialistUserName,
-        userId: selectedManagerSpecialistUser,
-        businessId: selectedManagerSpecialistStudio,
-      },
-    ]);
+    // Refresh search after adding specialist
+    performSearch();
   };
 
   const handleCustomerChange = (customerId) => {
     setSelectedCustomer(customerId);
-    // Filter Specialists based on the selected business
-    // const filteredSpecialists = dummySpecialists.filter(
-    //   (Specialist) => Specialist.businessId === parseInt(businessId)
-    // );
-    // setSpecialists(filteredSpecialists);
   };
 
   const handleStudioChange = (businessId) => {
-    setSelectedStudio(businessId);
-    if (!businessId) {
-      setSpecialists(dummySpecialists);
-    } else {
-      // Filter Specialists based on the selected business
-      const filteredSpecialists = dummySpecialists.filter(
-        (Specialist) => Specialist.businessId === parseInt(businessId)
-      );
-      setSpecialists(filteredSpecialists);
-    }
+    // Convert empty string to null
+    setSelectedStudio(businessId === "" ? null : businessId);
+    // No longer using dummy data, will trigger API call in useEffect
   };
 
   const handleNewCustomerAdd = () => {
@@ -192,11 +296,9 @@ const BookingPage = () => {
 
   const handleFilterSpecilistAvailibilitiesChange = (v) => {
     console.log("handleFilterSpecilistAvailibilitiesChange", v);
-    setSelectedFilterDay(v);
-    console.log();
-    setSpecialists(
-      dummySpecialists.filter((s) => s.availibilities.includes(Number(v)))
-    );
+    // Convert empty string to null (same as handleStudioChange)
+    setSelectedFilterDay(v === "" ? null : v);
+    // No longer using dummy data, will trigger API call in useEffect
   };
 
   return (
@@ -251,7 +353,7 @@ const BookingPage = () => {
             value={selectedStudio || ""}
           >
             <option value="">Select</option>
-            {businesses.map((business) => (
+            {allBusinesses.map((business) => (
               <option key={business.id} value={business.id}>
                 {business.name}, {business.city}
               </option>
@@ -297,7 +399,24 @@ const BookingPage = () => {
               ))}
             </select>
           </label>
+          
+          {/* Display Salons */}
+          {businesses.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold mb-4">
+                Salons ({businesses.length})
+              </h3>
+              {businesses.map((business) => (
+                <BusinessCard key={business.id} business={business} />
+              ))}
+            </div>
+          )}
+
+          {/* Display Specialists */}
           <div>
+            <h3 className="text-lg font-semibold mb-4">
+              Specialists ({specialists.length})
+            </h3>
             {specialists.map((row, rkey) => (
               <ProfileCard key={rkey} profile={row} />
             ))}

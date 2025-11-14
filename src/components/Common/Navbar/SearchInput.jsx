@@ -3,17 +3,59 @@
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
 import { useAppDispatch } from "@/src/lib/hooks";
-import { updateSpecialistsFilter } from "@/src/lib/features/specialist/specialistsSlice";
-import { useState } from "react";
+import { setKeywordsFilter, setSpecialists } from "@/src/lib/features/specialist/specialistsSlice";
+import { setBusinesses } from "@/src/lib/features/businesses/businessesSlice";
+import { useState, useEffect } from "react";
 
 export default function SearchInput() {
   const dispatch = useAppDispatch();
   const [keywords, setKeywords] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // 初始加载所有数据
+  useEffect(() => {
+    performSearch("");
+  }, []);
+
+  const performSearch = async (searchQuery) => {
+    console.log('performSearch called with:', searchQuery);
+    setLoading(true);
+    
+    try {
+      const response = await fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: searchQuery }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Search failed');
+      }
+
+      const data = await response.json();
+      console.log('API results:', data);
+      
+      // 直接设置整个列表，替换现有数据
+      dispatch(setBusinesses(data.businesses || []));
+      dispatch(setSpecialists(data.specialists || []));
+    } catch (error) {
+      console.error('Search error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChangeInput = (e) => {
-    console.log("handleChangeInput");
-    setKeywords(e.target.value);
-    dispatch(updateSpecialistsFilter({ keywords: e.target.value }));
+    const newKeywords = e.target.value;
+    setKeywords(newKeywords);
+    
+    // 保存关键词到 filter
+    dispatch(setKeywordsFilter({ keywords: newKeywords }));
+    
+    // 调用 API 搜索
+    if (newKeywords.trim().length >= 2 || newKeywords.trim().length === 0) {
+      performSearch(newKeywords);
+    }
   };
 
   return (
