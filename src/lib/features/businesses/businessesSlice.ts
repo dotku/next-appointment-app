@@ -32,7 +32,7 @@ export interface CompaniesSliceState {
 }
 
 const initialState = {
-  value: dummyBusinesses,
+  value: [], // 不使用 dummy 数据，从 API 获取
   status: "idle",
 };
 
@@ -66,6 +66,12 @@ export const businessesSlice = createAppSlice({
           user.id === action.payload.id ? action.payload : user
         );
         return { ...state, value: updatedCompanies };
+      }
+    ),
+    // 直接设置整个列表
+    setBusinesses: creator.reducer(
+      (state, action: PayloadAction<Business[]>) => {
+        state.value = action.payload;
       }
     ),
     // The function below is called a thunk and allows us to perform async logic. It
@@ -103,7 +109,7 @@ export const businessesSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function.
-export const { createBusiness, removeBusiness, updateBuinessesAsync } =
+export const { createBusiness, removeBusiness, updateBuinessesAsync, setBusinesses } =
   businessesSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.

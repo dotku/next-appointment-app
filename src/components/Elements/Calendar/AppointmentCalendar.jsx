@@ -1,6 +1,5 @@
 import { Calendar } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
-import styled from "styled-components";
 import { useAppSelector } from "@/src/lib/hooks";
 import { selectAppointments } from "@/src/lib/features/appointments/appointmentsSlice";
 
@@ -44,16 +43,17 @@ export default function AppointmentCalendar() {
     )
     .join(",");
 
-  const CustomizedCalendar = styled.div`
-    ${styledDateSelector} {
-      background-color: lightgray;
-    }
-  `;
+  // 使用内联样式替代动态 styled
+  const styleString = styledDateSelector
+    ? `${styledDateSelector} { background-color: lightgray; }`
+    : '';
+
   return (
-    <CustomizedCalendar>
+    <div>
+      <style dangerouslySetInnerHTML={{ __html: styleString }} />
       <Calendar
         defaultValue={parseDate(new Date().toISOString().split("T")[0])}
       />
-    </CustomizedCalendar>
+    </div>
   );
 }
